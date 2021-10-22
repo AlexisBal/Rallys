@@ -10,14 +10,8 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className="container py-5 px-4">
-                <div className="row rounded-lg overflow-hidden shadow">
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route path="/login" component={Login} />
-                        <Route path='/register' component={Register}/>
-                    </Switch>
-                </div>
+            <div>
+                <h1>test</h1>
             </div>
         );
     }
