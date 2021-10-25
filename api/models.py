@@ -69,7 +69,7 @@ class Question(models.Model,):
         verbose_name="Id Question", primary_key=True, null=False, unique=True
     )
     rallye = models.ForeignKey(Rallye, related_name="Questions", on_delete=models.CASCADE)
-    rang = models.AutoField(
+    rang = models.IntegerField(
         verbose_name="Rang", null=False, unique=False
     )
     photo = models.CharField(verbose_name="Photo", max_length=255, null=True, default=None)
@@ -83,7 +83,6 @@ class Question(models.Model,):
 
     class Meta:
         unique_together = ['rallye', 'rang']
-        ordering = ['rang']
         db_table = "questions"
 
 

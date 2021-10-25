@@ -17,14 +17,14 @@ class UserAdminCreationForm(forms.ModelForm):
     """
     gender = forms.ChoiceField(choices=[('M', 'M',), ('F', 'F',)])
     birth_date = forms.DateInput()
-    first_name = forms.CharField(label='First Name')
-    last_name = forms.CharField(label='Last Name')
+    first_name = forms.CharField(label='pseudo')
+    last_name = forms.CharField(label='region')
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
         model = Profile
-        fields = ('email', 'gender', 'birth_date', 'first_name', 'last_name')
+        fields = ('email', 'gender', 'birth_date', 'pseudo', 'region')
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -57,7 +57,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('email', 'password', 'is_active', 'is_admin', 'gender', 'birth_date', 'first_name', 'last_name', 'alert_stock_email', 'alert_price_email', 'alert_stock_sms', 'alert_price_sms')
+        fields = ('email', 'password', 'gender', 'birth_date', 'pseudo', 'region', 'is_active')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

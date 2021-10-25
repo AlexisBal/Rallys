@@ -7,14 +7,10 @@ class ProfilesSerializer(serializers.ModelSerializer):
        fields = (
            'token',
            'id_user', 
-           'first_name',
-           'last_name',
-           'phone',
-           'email',
-           'alert_stock_email',
-           'alert_price_email',
-           'alert_stock_sms',
-           'alert_price_sms'
+           'region',
+           'pseudo'
+           'birth_date',
+           'email'
        )
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -23,8 +19,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = (
             'gender', 
             'birth_date',
-            'first_name',
-            'last_name',
+            'region',
+            'pseudo',
             'email',
             'password'
     )
