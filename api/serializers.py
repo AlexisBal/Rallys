@@ -10,12 +10,39 @@ class ProfilesSerializer(serializers.ModelSerializer):
            'region',
            'pseudo'
            'birth_date',
-           'email'
+           'email',
+           'alert_email',
+           'alert_push',
+           'is_active',
+           'admin',
+           'staff',
+           'last_login',
+           'createdAt'
        )
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+   class Meta:
+       model = Profile
+       fields = (
+           'token',
+           'id_user', 
+           'region',
+           'pseudo'
+           'birth_date',
+           'email',
+           'alert_email',
+           'alert_push',
+           'is_active',
+           'admin',
+           'staff',
+       )
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
+        
         fields = (
             'gender', 
             'birth_date',
@@ -34,82 +61,78 @@ class LoginSerializer(serializers.ModelSerializer):
     )
 
 
-
-class MonitoringsSerializer(serializers.ModelSerializer):
-   class Meta:
-       model = Monitoring
-       fields = (
-           'id_monitoring',
-           'id_user',
-           'sku',
-           'stock', 
-           'price',
-           'limit',
-           'creation_date'
-       )
+class PropositionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            'id_proposition',
+            'proposition',
+            'creation_date',
+            'update_date'
+    )
 
 
-class MonitoringSerializer(serializers.ModelSerializer):
-   class Meta:
-       model = Monitoring
-       fields = (
-           'id_user',
-           'sku',
-           'stock', 
-           'price',
-           'limit'
-       )
+class PropositionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = (
+            'id_proposition'
+            'proposition'
+    )
 
 
-class ProductsSerializer(serializers.ModelSerializer):
-   class Meta:
-       model = Products
-       fields = (
-           'sku',
-           'market_place',
-           'brand',
-           'name',
-           'categorie',
-           'size',
-           'color',
-           'request',
-           'stock',
-           'price', 
-           'creation_date',
-           'update_date'
-       )
+class QuestionsSerializer(serializers.ModelSerializer):
+    propositions = PropositionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = (
+            'id_question',
+            'rang',
+            'photo',
+            'photo_style',
+            'question',
+            'propositions',
+            'id_reponse',
+            'reponse',
+            'nb_points',
+            'creation_date',
+            'update_date'
+    )
 
 
-class ProductSerializer(serializers.ModelSerializer):
-   class Meta:
-       model = Products
-       fields = (
-            'sku',
-            'url',
-            'market_place',
-            'brand',
-            'name',
-            'categorie',
-            'size',
-            'color',
-            'request',
-            'stock',
-            'price',
-       )
+class QuestionSerializer(serializers.ModelSerializer):
+    propositions = PropositionSerializer(many=True, read_only=True)
 
-class NewMonitoringProductSerializer(serializers.ModelSerializer):
-   class Meta:
-       model = Products
-       fields = (
-            'url',
-            'market_place',
-            'brand',
-            'name',
-            'categorie',
-            'size',
-            'color',
-       )
+    class Meta:
+        model = Profile
+        fields = (
+            'id_question'
+            'rang',
+            'photo',
+            'photo_style',
+            'question',
+            'propositions',
+            'id_reponse',
+            'reponse',
+            'nb_points',
+    )
 
 
+class RallyesSerializer(serializers.ModelSerializer):
+    authors = ProfilesSerializer(many=True, read_only=True)
+    questions = QuestionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = (
+            'id_rallye',
+            'authors',
+            'adresse',
+            'presentation',
+            'questions',
+            'creation_date',
+            'update_date'
+    )
 
 

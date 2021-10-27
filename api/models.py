@@ -12,9 +12,11 @@ class Profile(AbstractBaseUser):
     pseudo = models.CharField(verbose_name="Pseudo", max_length=60, null=True, default=None)
     region = models.CharField(verbose_name="Region", max_length=255, null=True, default=None)
     email = models.EmailField(verbose_name="Email", max_length=255, unique=True)
+    alert_email = models.BooleanField(default=True)
+    alert_push = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
+    staff = models.BooleanField(default=False)
+    admin = models.BooleanField(default=False)
     token = models.CharField(verbose_name="Token", max_length=255, unique=True, default=None,  null=True)
     createdAt = models.DateTimeField("Created At", auto_now_add=True)
 
@@ -39,32 +41,49 @@ class Profile(AbstractBaseUser):
     @property
     def is_staff(self):
         "Is the user a member of staff?"
-        return self.is_staff
+        return self.staff
 
     @property
     def is_admin(self):
         "Is the user a member of admin?"
-        return self.is_admin
+        return self.admin
 
     class Meta:
-        db_table = "users"
+        db_table = "rallys_users"
 
 
-class Rallye(models.Model,):
+class Historique(models.Model):
+    id_action = models.AutoField(
+        verbose_name="Id Action", primary_key=True, null=False, unique=True
+    )
+    user = models.ForeignKey(Profile, related_name="Historique", on_delete=models.CASCADE)
+    id_rallye = IntegerField(null=False)
+    is_active = models.BooleanField(default=True)
+    avancee = IntegerField(default=0);
+    score = IntegerField(default=0);
+    creation_date = models.DateTimeField("Created At", auto_now_add=True)
+    update_date = models.DateTimeField("Updated At", auto_now=True)
+
+    class Meta:
+        db_table = "rallys_historique"
+
+    
+
+class Rallye(models.Model):
     id_rallye = models.AutoField(
         verbose_name="Id Rallye", primary_key=True, null=False, unique=True
     )
-    admin = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    authors = models.ManyToManyField(Profile)
     adresse = models.CharField(verbose_name="Adresse", max_length=255, null=True, default=None)
     presentation = models.CharField(verbose_name="Presentation", max_length=255, null=True, default=None)
     creation_date = models.DateTimeField("Created At", auto_now_add=True)
     update_date = models.DateTimeField("Updated At", auto_now=True)
 
     class Meta:
-        db_table = "rallyes"
+        db_table = "rallys_rallyes"
 
 
-class Question(models.Model,):
+class Question(models.Model):
     id_question = models.AutoField(
         verbose_name="Id Question", primary_key=True, null=False, unique=True
     )
@@ -83,10 +102,10 @@ class Question(models.Model,):
 
     class Meta:
         unique_together = ['rallye', 'rang']
-        db_table = "questions"
+        db_table = "rallys_questions"
 
 
-class Proposition(models.Model,):
+class Proposition(models.Model):
     id_proposition = models.AutoField(
         verbose_name="Id Proposition", primary_key=True, null=False, unique=True
     )
@@ -96,4 +115,4 @@ class Proposition(models.Model,):
     update_date = models.DateTimeField("Updated At", auto_now=True)
 
     class Meta:
-        db_table = "propositions"
+        db_table = "rallys_propositions"

@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email)
         )
-        user.is_admin = True
+        user.admin = True
         user.set_password(password)
         user.save()
         token, created = Token.objects.get_or_create(user=user) # Création d'un token unique
@@ -46,7 +46,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email)
         )
-        user.is_staff = True
+        user.staff = True
         user.set_password(password)
         user.save()
         token, created = Token.objects.get_or_create(user=user) # Création d'un token unique
