@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
 from .forms import UserAdminCreationForm, UserAdminChangeForm
-from .models import Profile
+from .models import Profile, Proposition, Question, Rallye
 
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
@@ -36,7 +36,26 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+class PropositionInline(admin.TabularInline):
+    model = Proposition
+    extra = 1
+
+
+class QuestionInline(admin.TabularInline):
+    propositions = PropositionInline
+    model = Question
+        
+
+
+class QuestionAdmin(admin.ModelAdmin):
+    inlines = (PropositionInline,)
+
+
+class RallyeAdmin(admin.ModelAdmin):
+    inlines = (QuestionInline, )
+
 admin.site.register(Profile, UserAdmin)
+admin.site.register(Rallye, RallyeAdmin)
 
 
 

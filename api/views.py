@@ -208,7 +208,7 @@ def user(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 #@protected_resource()
 def rallyes(request):
     '''

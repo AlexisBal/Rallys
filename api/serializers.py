@@ -8,7 +8,7 @@ class ProfilesSerializer(serializers.ModelSerializer):
            'token',
            'id_user', 
            'region',
-           'pseudo'
+           'pseudo',
            'birth_date',
            'email',
            'alert_email',

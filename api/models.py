@@ -73,9 +73,10 @@ class Rallye(models.Model):
     id_rallye = models.AutoField(
         verbose_name="Id Rallye", primary_key=True, null=False, unique=True
     )
+    titre =  models.CharField(verbose_name="Titre", max_length=255, null=True, default=None)
     authors = models.ManyToManyField(Profile)
     adresse = models.CharField(verbose_name="Adresse", max_length=255, null=True, default=None)
-    presentation = models.CharField(verbose_name="Presentation", max_length=255, null=True, default=None)
+    presentation = models.TextField(verbose_name="Presentation", null=True, default=None)
     creation_date = models.DateTimeField("Created At", auto_now_add=True)
     update_date = models.DateTimeField("Updated At", auto_now=True)
 
@@ -96,7 +97,7 @@ class Question(models.Model):
     question = models.CharField(verbose_name="Question", max_length=255, null=False)
     id_reponse = IntegerField(verbose_name="Id Reponse", null=False)
     reponse = models.CharField(verbose_name="Reponse", max_length=255, null=False)
-    nb_points = IntegerField(verbose_name="Id Reponse", null=False)
+    nb_points = IntegerField(verbose_name="Nombre Points", null=False)
     creation_date = models.DateTimeField("Created At", auto_now_add=True)
     update_date = models.DateTimeField("Updated At", auto_now=True)
 
