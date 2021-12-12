@@ -1,11 +1,311 @@
-body {
+
+html, body {
+  height: auto;
+  width: auto;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color:rgba(231, 231, 231, 0.336);
 }
+
+h1 {
+  padding-top: 40px;
+}
+
+
+.alert {
+  margin-top: 60px;
+  height: auto;
+  width: auto;
+}
+
+.safe-container {
+  padding: 40px;
+  background-color: rgba(231, 231, 231, 0.336);
+}
+
+.error {
+  color: red;
+  position: relative;
+}
+
+.PublicNavBar {
+  height:fit-content;
+  background-color: white;
+}
+
+.PrivateNavBar {
+  height:fit-content;
+  background-color: white;
+}
+
+.form-signin {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  width: 30%;
+  padding: 20px;
+  margin: auto;
+  transform: translate(-50%, -50%);
+}
+.form-signin .checkbox {
+  position: relative;
+  height: auto;
+  padding-top: 20px;
+  font-size: 17px;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 12px;
+  font-size: 17px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  margin-top: 50px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.submit {
+  margin-top: 20px;
+}
+
+.form-register {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  padding: 20px;
+  margin: auto;
+  transform: translate(-50%, -50%);
+}
+.form-register .checkbox {
+  font-weight: 400;
+}
+.form-register .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-register .form-control:focus {
+  z-index: 2;
+}
+.form-register .gender {
+  margin-bottom: 15px;
+}
+.form-register #birthdate {
+  margin-bottom: 20px;
+}
+.form-register #lastname {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-register #firstname {
+  margin-bottom: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-register #email {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-register #email-confirm {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-register #password {
+  margin-bottom: -1px;
+  margin-top: 20px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-register #password-confirm {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-register #register-confirm {
+  margin-top: 20px;
+}
+
+.datePicker {
+  width: 100%;
+}
+
+.form-settings {
+  width: 100%;
+  padding: 20px;
+  position:relative;
+
+}
+.form-settings .form-control {
+  position: relative;
+  box-sizing:border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-settings .form-control:focus {
+  z-index:2;
+}
+.form-settings #alert-mail {
+  background-color: white;
+  width: auto;
+  height: fit-content;
+
+}
+.form-settings #alert-sms {
+  margin-top: 60px;
+  background-color: white;
+  width: auto;
+  height: fit-content;
+}
+.alert-mail-logo {
+  vertical-align: middle;
+  background-color: black;
+  width: 80px;
+  height: 80px;
+  border-radius: 100px;
+  padding: 15px;
+}
+.alert-sms-logo {
+  vertical-align: middle;
+  background-color: black;
+  width: 80px;
+  height: 80px;
+  border-radius: 100px;
+  padding: 15px;
+}
+
+.form-change-password {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  padding: 20px;
+  margin: auto;
+  transform: translate(-50%, -50%);
+}
+.form-change-password .form-control {
+  position: relative;
+  box-sizing:border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-change-password .form-control:focus {
+  z-index:2;
+}
+.form-change-password #password {
+  margin-bottom: 5px;
+}
+.form-change-password #new-password {
+  margin-bottom: -1px;
+  margin-top: 15px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-change-password #new-password-confirm {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-bottom: 5px;
+}
+.form-change-password #button-submit {
+  margin-top: 20px;
+}
+
+.form-new-monitoring{
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  padding: 20px;
+  margin: auto;
+  transform: translate(-50%, -50%);
+}
+.form-new-monitoring .form-control {
+  position: relative;
+  box-sizing:border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-new-monitoring .form-control:focus {
+  z-index:2;
+}
+.form-new-monitoring #url_website {
+  margin-bottom: 5px;
+  margin-top: 40px;
+}
+.form-new-monitoring #brand {
+  margin-bottom: 5px;
+  margin-top: 40px;
+}
+.form-new-monitoring #name {
+  margin-bottom: 5px;
+  margin-top: 20px;
+}
+.form-new-monitoring #categorie {
+  margin-bottom: 5px;
+  margin-top: 20px;
+}
+.form-new-monitoring #color {
+  margin-bottom: 5px;
+  margin-top: 20px;
+}
+.form-new-monitoring #size {
+  margin-bottom: 5px;
+  margin-top: 20px;
+}
+.form-new-monitoring #button-submit {
+  margin-top: 30px;
+  width: 25%;
+}
+.form-new-monitoring #button-cancel {
+  margin-top: 30px;
+  margin-right: 20px;
+  width: 25%;
+}
+.form-new-monitoring .option {
+  background-color: white;
+  width: auto;
+  height: fit-content;
+  padding: 20px;
+  margin: 30px;
+}
+.form-new-monitoring #button-stock {
+  margin-left: 30px;
+  width: 30%;
+  vertical-align: middle;
+  
+}
+.form-new-monitoring #button-price {
+  margin-left: 30px;
+  width: 30%;
+  vertical-align: middle;
+}
+.monitoring-logo {
+  vertical-align: middle;
+  background-color: black;
+  width: 65px;
+  height: 65px;
+  border-radius: 100px;
+  padding: 15px;
+  margin: 20px;
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
