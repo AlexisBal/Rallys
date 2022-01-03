@@ -6,6 +6,8 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
+import { Web3ReactProvider } from '@web3-react/core'
+import Web3 from 'web3'
 
 import { useAuth, AuthContext, fakeAuthProvider } from "./Tracking/Auth";
 import Informations from "./Tracking/Informations";
@@ -15,6 +17,7 @@ import Login from './Vues/Public/Login';
 import ProfileHome from './Vues/Private/ProfileHome';
 
 import './App.css';
+import { provider } from "web3-core";
 
 
 export default function App() {
@@ -41,6 +44,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 // Public Header
