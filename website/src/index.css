@@ -30,6 +30,7 @@ h1 {
 .PublicNavBar {
   height:fit-content;
   background-color: white;
+  padding: 1vw;
 }
 
 .PrivateNavBar {
