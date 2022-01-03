@@ -6,8 +6,6 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
-import { Web3ReactProvider } from '@web3-react/core'
-import Web3 from 'web3'
 
 import { useAuth, AuthContext, fakeAuthProvider } from "./Tracking/Auth";
 import Informations from "./Tracking/Informations";
@@ -17,7 +15,6 @@ import Login from './Vues/Public/Login';
 import ProfileHome from './Vues/Private/ProfileHome';
 
 import './App.css';
-import { provider } from "web3-core";
 
 
 export default function App() {
@@ -66,9 +63,6 @@ const PublicHeader = (props: { key: any;}) => {
           <Nav.Item>
             <Nav.Link href="/login">Se connecter</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
-            <Nav.Link href="/register">S'inscrire</Nav.Link>
-          </Nav.Item>
         </Nav>
       </Navbar.Collapse>
   </Navbar>
@@ -96,12 +90,6 @@ const PrivateHeader = (props: { key: any; setSessionInformations: any; }) => {
         <Nav activeKey={location.pathname} className="mr-auto ">
           <Nav.Item>
             <Nav.Link href="/myaccount">Accueil</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link href="/myaccount/monitor">Dashboard</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link href="/myaccount/new-monitoring">Nouveau suivi</Nav.Link>
           </Nav.Item>
           <NavDropdown  title="Mon compte" id="basic-nav-dropdown">
             <NavDropdown.Item href="/myaccount/settings">Mes préférences</NavDropdown.Item>

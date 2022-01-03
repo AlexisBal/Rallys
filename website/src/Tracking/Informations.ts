@@ -22,5 +22,5 @@ export default function Informations() {
   return {
     setSessionInformations: saveSessionInformations,
     key
-  }
+  };
 }
