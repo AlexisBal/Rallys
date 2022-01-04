@@ -23,21 +23,21 @@ function Login() {
   let location = useLocation();
   let navigate = useNavigate();
 
+  React.useEffect(() => {
+    if (active && !key) {
+      setSessionInformations({key: account});
+    }
+    if (active && key) {
+      navigate("/myaccount");
+    }
+  })
+
   async function connect(name: string) {
     try {
       await activate(connectorsByName[name]);
     } catch (ex) {
       console.log(ex)
     }
-  }
-
-  if (active && !key) {
-    setSessionInformations({key: account});
-    navigate("/myaccount");
-  }
-
-  if (key) {
-    return <Navigate to="/myaccount" state={{ from: location }} replace />;
   }
   
   return (
@@ -57,24 +57,6 @@ function Login() {
               </Button>
             )
           })}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            {(active || error) && (
-              <Button
-                style={{
-                  height: '3rem',
-                  marginTop: '2rem',
-                  borderRadius: '1rem',
-                  borderColor: 'red',
-                  cursor: 'pointer'
-                }}
-                onClick={() => {
-                  deactivate();
-                }}
-              >
-                Annuler
-              </Button>
-            )}
-          </div>
         </div>
       </div>
     </body>

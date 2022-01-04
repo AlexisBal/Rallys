@@ -11,6 +11,7 @@ import { useWeb3React } from "@web3-react/core";
 
 import { useAuth, AuthContext } from "./Tracking/Auth";
 import Informations from "./Tracking/Informations";
+import PrivateRoute from "./Tracking/PrivateRoute";
 
 import Home from './Vues/Public/Home';
 import Login from './Vues/Public/Login';
@@ -21,8 +22,6 @@ import './App.css';
 
 export default function App() {
   const {setSessionInformations, key } = Informations();
-
-  console.log(key);
 
   return (
     <div className="Main">
@@ -35,9 +34,9 @@ export default function App() {
           <Route
             path="/myaccount"
             element={
-              <RequireAuth>
+              <PrivateRoute>
                 <ProfileHome />
-              </RequireAuth>
+              </PrivateRoute>
             }
           />
         </Routes>
@@ -50,8 +49,6 @@ export default function App() {
 function PublicHeader() {
   let location = useLocation();
   const { key } = useAuth();
-
-  console.log(key);
 
   if (key) return null;
 
@@ -105,18 +102,5 @@ function PrivateHeader() {
   </Navbar>
   );
 };
-
-
-function RequireAuth({ children }: { children: JSX.Element }) {
-  const { key } = useAuth();
-  let location = useLocation();
-  console.log(key);
-
-  if (!key) {
-    return <Navigate to="/" state={{ from: location }} replace />;
-  }
-
-  return children;
-}
 
 
