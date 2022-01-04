@@ -7,9 +7,9 @@ import {
   Navigate,
   useNavigate
 } from "react-router-dom";
+import { useWeb3React } from "@web3-react/core";
 
 import { useAuth, AuthContext, fakeAuthProvider } from "./Tracking/Auth";
-import Informations from "./Tracking/Informations";
 
 import Home from './Vues/Public/Home';
 import Login from './Vues/Public/Login';
@@ -72,10 +72,12 @@ const PrivateHeader = () => {
   let location = useLocation();
   let navigate = useNavigate();
   let auth = useAuth();
+  const { deactivate } = useWeb3React();
 
   if (!auth.user) return null;
 
   function logOut() {
+    deactivate();
     auth.signout(() => navigate("/"));
   }
 
