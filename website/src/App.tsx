@@ -9,7 +9,8 @@ import {
 } from "react-router-dom";
 import { useWeb3React } from "@web3-react/core";
 
-import { useAuth, AuthContext, fakeAuthProvider } from "./Tracking/Auth";
+import { useAuth, AuthContext } from "./Tracking/Auth";
+import Informations from "./Tracking/Informations";
 
 import Home from './Vues/Public/Home';
 import Login from './Vues/Public/Login';
@@ -19,10 +20,13 @@ import './App.css';
 
 
 export default function App() {
+  const {setSessionInformations, key } = Informations();
+
+  console.log(key);
 
   return (
     <div className="Main">
-      <AuthProvider>
+      <AuthContext.Provider value={{setSessionInformations, key }}>
         <PublicHeader />
         <PrivateHeader />
         <Routes>
@@ -37,17 +41,19 @@ export default function App() {
             }
           />
         </Routes>
-      </AuthProvider>
+      </AuthContext.Provider>
     </div>
   );
 }
 
 // Public Header
-const PublicHeader = () => {
+function PublicHeader() {
   let location = useLocation();
-  let auth = useAuth();
+  const { key } = useAuth();
 
-  if (auth.user) return null;
+  console.log(key);
+
+  if (key) return null;
 
   return (
     <Navbar collapseOnSelect className='PublicNavBar' fixed="top" expand={true} variant='light'>
@@ -68,17 +74,16 @@ const PublicHeader = () => {
 };
 
 // Private Header 
-const PrivateHeader = () => {
+function PrivateHeader() {
   let location = useLocation();
-  let navigate = useNavigate();
-  let auth = useAuth();
+  const { key, setSessionInformations } = useAuth();
   const { deactivate } = useWeb3React();
 
-  if (!auth.user) return null;
+  if (!key) return null;
 
   function logOut() {
     deactivate();
-    auth.signout(() => navigate("/"));
+    setSessionInformations({key: false})
   }
 
   return (
@@ -103,35 +108,15 @@ const PrivateHeader = () => {
 
 
 function RequireAuth({ children }: { children: JSX.Element }) {
-  let auth = useAuth();
+  const { key } = useAuth();
   let location = useLocation();
+  console.log(key);
 
-  if (!auth.user) {
+  if (!key) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return children;
 }
 
-function AuthProvider({ children }: { children: React.ReactNode }) {
-  let [user, setUser] = React.useState<any>(null);
-
-  let signin = (newUser: any, callback: VoidFunction) => {
-    return fakeAuthProvider.signin(() => {
-      setUser(newUser);
-      callback();
-    });
-  };
-
-  let signout = (callback: VoidFunction) => {
-    return fakeAuthProvider.signout(() => {
-      setUser(null);
-      callback();
-    });
-  };
-
-  let value = { user, signin, signout };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
 

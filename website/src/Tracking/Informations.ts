@@ -5,14 +5,14 @@ export default function Informations() {
     var key = sessionStorage.getItem('key');
     if (key) {
       const userKey = JSON.parse(key);
-      return userKey.key
+      return userKey
     } else {
       return false;
     }
     
   };
 
-  const [key, setKey] = useState(getInformations()[0]);
+  const [key, setKey] = useState(getInformations());
 
   const saveSessionInformations = (userInformations: { key: { key: any; }; }) => {
     sessionStorage.setItem('key', JSON.stringify(userInformations.key));
