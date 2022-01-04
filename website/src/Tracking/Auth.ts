@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 
 interface AuthContextType {
   user: any;
-  signin: (user: string, callback: VoidFunction) => void;
+  signin: (user: any, callback: VoidFunction) => void;
   signout: (callback: VoidFunction) => void;
 }
 

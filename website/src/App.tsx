@@ -5,6 +5,7 @@ import {
   Route,
   useLocation,
   Navigate,
+  useNavigate
 } from "react-router-dom";
 
 import { useAuth, AuthContext, fakeAuthProvider } from "./Tracking/Auth";
@@ -18,13 +19,12 @@ import './App.css';
 
 
 export default function App() {
-  const {setSessionInformations, key } = Informations();
 
   return (
     <div className="Main">
       <AuthProvider>
-        <PublicHeader key={key} />
-        <PrivateHeader key={key} setSessionInformations={setSessionInformations} />
+        <PublicHeader />
+        <PrivateHeader />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -42,14 +42,12 @@ export default function App() {
   );
 }
 
-
-
 // Public Header
-const PublicHeader = (props: { key: any;}) => {
+const PublicHeader = () => {
   let location = useLocation();
-  const {key} = props;
+  let auth = useAuth();
 
-  if (key) return null;
+  if (auth.user) return null;
 
   return (
     <Navbar collapseOnSelect className='PublicNavBar' fixed="top" expand={true} variant='light'>
@@ -69,18 +67,16 @@ const PublicHeader = (props: { key: any;}) => {
   );
 };
 
-
 // Private Header 
-const PrivateHeader = (props: { key: any; setSessionInformations: any; }) => {
+const PrivateHeader = () => {
   let location = useLocation();
-  const {key, setSessionInformations} = props;
+  let navigate = useNavigate();
+  let auth = useAuth();
 
-  if (!key) return null;
+  if (!auth.user) return null;
 
   function logOut() {
-    setSessionInformations({
-      key: false
-    });
+    auth.signout(() => navigate("/"));
   }
 
   return (
@@ -118,7 +114,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 function AuthProvider({ children }: { children: React.ReactNode }) {
   let [user, setUser] = React.useState<any>(null);
 
-  let signin = (newUser: string, callback: VoidFunction) => {
+  let signin = (newUser: any, callback: VoidFunction) => {
     return fakeAuthProvider.signin(() => {
       setUser(newUser);
       callback();

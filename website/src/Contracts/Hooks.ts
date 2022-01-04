@@ -5,7 +5,6 @@ import { injected } from './Connectors';
 
 export function useEagerConnect() {
   const { activate, active } = useWeb3React();
-
   const [tried, setTried] = useState(false);
 
   useEffect(() => {
