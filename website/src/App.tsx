@@ -113,10 +113,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   let signout = () => {
-    var falseAny:any;
-    falseAny = false;
     setKeybis(false);
-    setSessionInformations({key: falseAny});
+    setSessionInformations({key: false});
   };
 
   let value = { signin, signout, keybis };

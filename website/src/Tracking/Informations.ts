@@ -14,9 +14,9 @@ export default function Informations() {
 
   const [key, setKey] = useState(getInformations());
 
-  const saveSessionInformations = (userInformations: { key: { key: boolean | string; }; }) => {
-    sessionStorage.setItem('key', JSON.stringify(userInformations.key));
-    setKey(userInformations.key.key);
+  const saveSessionInformations = (userKey: { key: false | any; }) => {
+    sessionStorage.setItem('key', JSON.stringify(userKey));
+    setKey(userKey.key);
   };
 
   return {
