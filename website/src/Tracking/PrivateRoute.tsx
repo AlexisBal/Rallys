@@ -4,10 +4,10 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./Auth";
 
 function PrivateRoute({ children }: { children: JSX.Element }) {
-  const { key } = useAuth();
+  let auth = useAuth();
   let location = useLocation();
 
-  if (!key) {
+  if (!auth.keybis) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

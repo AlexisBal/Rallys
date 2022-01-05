@@ -3,12 +3,12 @@ import { useAuth } from "../../Tracking/Auth";
 
 
 function ProfileHome () {
-  const { key } = useAuth();
+  let auth = useAuth();
 
   return (
       <body>
         <div className='safe-container'>
-          <h1>Hey {key}</h1>
+          <h1>Hey {auth.keybis}</h1>
           <main className="form-settings">
           </main>
         </div>

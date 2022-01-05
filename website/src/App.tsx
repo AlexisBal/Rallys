@@ -21,11 +21,10 @@ import './App.css';
 
 
 export default function App() {
-  const {setSessionInformations, key } = Informations();
 
   return (
     <div className="Main">
-      <AuthContext.Provider value={{setSessionInformations, key }}>
+      <AuthProvider>
         <PublicHeader />
         <PrivateHeader />
         <Routes>
@@ -40,7 +39,7 @@ export default function App() {
             }
           />
         </Routes>
-      </AuthContext.Provider>
+      </AuthProvider>
     </div>
   );
 }
@@ -48,9 +47,9 @@ export default function App() {
 // Public Header
 function PublicHeader() {
   let location = useLocation();
-  const { key } = useAuth();
+  let auth = useAuth();
 
-  if (key) return null;
+  if (auth.keybis) return null;
 
   return (
     <Navbar collapseOnSelect className='PublicNavBar' fixed="top" expand={true} variant='light'>
@@ -73,14 +72,14 @@ function PublicHeader() {
 // Private Header 
 function PrivateHeader() {
   let location = useLocation();
-  const { key, setSessionInformations } = useAuth();
+  let auth = useAuth();
   const { deactivate } = useWeb3React();
 
-  if (!key) return null;
+  if (!auth.keybis) return null;
 
   function logOut() {
     deactivate();
-    setSessionInformations({key: false})
+    auth.signout();
   }
 
   return (
@@ -104,3 +103,23 @@ function PrivateHeader() {
 };
 
 
+function AuthProvider({ children }: { children: React.ReactNode }) {
+  const {setSessionInformations, key } = Informations();
+  let [keybis, setKeybis] = React.useState<any>(key);
+
+  let signin = (key: any) => {
+    setKeybis(key);
+    setSessionInformations({key: key});
+  };
+
+  let signout = () => {
+    var falseAny:any;
+    falseAny = false;
+    setKeybis(false);
+    setSessionInformations({key: falseAny});
+  };
+
+  let value = { signin, signout, keybis };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}

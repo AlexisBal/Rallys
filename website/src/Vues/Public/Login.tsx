@@ -18,16 +18,15 @@ const connectorsByName: { [key: string]: any } = {
 
 function Login() {
   const context = useWeb3React<Web3Provider>();
-  const { activate, deactivate, active, error, account } = context;
-  const { key, setSessionInformations } = useAuth();
-  let location = useLocation();
+  const { activate, active, account } = context;
+  let auth = useAuth();
   let navigate = useNavigate();
 
   React.useEffect(() => {
-    if (active && !key) {
-      setSessionInformations({key: account});
+    if (active && !auth.keybis) {
+      auth.signin(account);
     }
-    if (active && key) {
+    if (active && auth.keybis) {
       navigate("/myaccount");
     }
   })
