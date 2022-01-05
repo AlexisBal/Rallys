@@ -4,6 +4,7 @@ import { useAuth } from "../../Tracking/Auth";
 
 function ProfileHome () {
   let auth = useAuth();
+  console.log(auth.keybis);
 
   return (
       <body>

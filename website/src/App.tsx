@@ -3,9 +3,7 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import {
   Routes,
   Route,
-  useLocation,
-  Navigate,
-  useNavigate
+  useLocation
 } from "react-router-dom";
 import { useWeb3React } from "@web3-react/core";
 
