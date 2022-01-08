@@ -89,9 +89,6 @@ function PrivateHeader() {
             <Nav.Link href="/myaccount">Accueil</Nav.Link>
           </Nav.Item>
           <NavDropdown  title="Mon compte" id="basic-nav-dropdown">
-            <NavDropdown.Item href="/myaccount/settings">Mes préférences</NavDropdown.Item>
-            <NavDropdown.Item href="/myaccount/settings/change-password">Changer mon mot de passe</NavDropdown.Item>
-            <NavDropdown.Divider />
             <NavDropdown.Item onClick={logOut}>Déconnexion</NavDropdown.Item>
           </NavDropdown>
         </Nav>
