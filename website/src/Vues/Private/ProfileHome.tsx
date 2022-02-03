@@ -41,12 +41,12 @@ function ProfileHome () {
       await node.swarm.connect("/ip4/127.0.0.1/tcp/4003/ws/p2p/12D3KooWP5Yu1E9ZrdNP2ihzckSSL3PB6ooNt4zAfcmfRSZVB1hd");
       console.log(await node.swarm.addrs());
       const { cid } = await node.add(selectedFile);
-      const { name } = await node.name.publish(cid);
+      const { name, value } = await node.name.publish(cid, {key: "rallys"});
       const multihash = uint8ArrayFromString(name, 'base58btc');
       const digest = Digest.decode(multihash);
       const libp2pKey = CID.createV1(0x72, digest);
       console.log(`/ipns/${libp2pKey.toString(base36)}`);
-    }
+    } 
 	};
 
   const handleSetupKey = async () => {
