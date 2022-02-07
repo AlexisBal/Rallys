@@ -17,7 +17,7 @@ function ProfileHome () {
     setSelectedFile(event.target.files[0]);
   }; 
 
-  // Publication du fichier sur IPFS 
+  // Publish on IPFS
   const handleSubmission = async () => {
     if (selectedFile) {
       const projectId = process.env.REACT_APP_PROJECT_ID;
@@ -38,13 +38,12 @@ function ProfileHome () {
     } 
 	};
 
-  // Récupération du fichier
+  // Get a file
   const handleGetFile = async () => {
     const response = await fetch(`https://ipfs.infura.io/ipfs/${hash}`);
     const data = await response.json();
     setJson(data);
     console.log(data);
-    console.log(json["0"]);
   }
 
   // Unpin a file 
