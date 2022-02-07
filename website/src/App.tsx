@@ -19,26 +19,23 @@ import './App.css';
 
 
 export default function App() {
-
   return (
-    <div className="Main">
-      <AuthProvider>
-        <PublicHeader />
-        <PrivateHeader />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/myaccount"
-            element={
-              <PrivateRoute>
-                <ProfileHome />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </AuthProvider>
-    </div>
+    <AuthProvider>
+      <PublicHeader />
+      <PrivateHeader />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/myaccount"
+          element={
+            <PrivateRoute>
+              <ProfileHome />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </AuthProvider>
   );
 }
 

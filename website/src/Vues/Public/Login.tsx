@@ -40,25 +40,23 @@ function Login() {
   }
   
   return (
-    <body>
-      <div className='safe-container'>
-        <h1>Se Connecter</h1>
-        <div>
-          {Object.keys(connectorsByName).map(name => {
-            return (
-              <Button
-                key={name}
-                onClick={() => {
-                  connect(name);
-                }}
-              >
-                {name}
-              </Button>
-            )
-          })}
-        </div>
+    <div className='safe-container'>
+      <h1>Se Connecter</h1>
+      <div>
+        {Object.keys(connectorsByName).map(name => {
+          return (
+            <Button
+              key={name}
+              onClick={() => {
+                connect(name);
+              }}
+            >
+              {name}
+            </Button>
+          )
+        })}
       </div>
-    </body>
+    </div>
   )
 }
 export default Login;
