@@ -1,13 +1,18 @@
 
 html, body {
-  height: auto;
-  width: auto;
+  height: 100%;
+  width: 100%;
   margin: 0;
-  background-color:rgba(231, 231, 231, 0.336);
+  background: linear-gradient(#100f27, #1e134b);
 }
 
 h1 {
   padding-top: 40px;
+  color: white;
+}
+
+label {
+  color: white;
 }
 
 
@@ -19,7 +24,6 @@ h1 {
 
 .safe-container {
   padding: 40px;
-  background-color: rgba(231, 231, 231, 0.336);
 }
 
 .error {
