@@ -4,6 +4,7 @@ import { create } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
 
 import { useAuth } from "../../Tracking/Auth";
+import React from 'react';
 
 
 function ProfileHome () {

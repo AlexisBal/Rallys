@@ -50,7 +50,7 @@ function PublicHeader() {
     <Navbar collapseOnSelect className='PublicNavBar' fixed="top" expand={true} variant='light'>
       <Navbar.Brand >Rallys</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav">
+      <Navbar.Collapse role="responsive-navbar-nav">
         <Nav activeKey={location.pathname} className="mr-auto">
           <Nav.Item>
             <Nav.Link href="/">Accueil</Nav.Link>
@@ -80,7 +80,7 @@ function PrivateHeader() {
   return (
     <Navbar collapseOnSelect className='PrivateNavBar' fixed="top" expand={true} variant='light'>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse >
+      <Navbar.Collapse role="responsive-navbar-nav">
         <Nav activeKey={location.pathname} className="mr-auto ">
           <Nav.Item>
             <Nav.Link href="/myaccount">Accueil</Nav.Link>
@@ -95,7 +95,7 @@ function PrivateHeader() {
 };
 
 
-function AuthProvider({ children }: { children: React.ReactNode }) {
+function AuthProvider({ children }: { children: any }) {
   const {setSessionInformations, key } = Informations();
   let [keybis, setKeybis] = React.useState<any>(key);
 

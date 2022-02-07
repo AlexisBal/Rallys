@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { Button } from 'react-bootstrap';
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   injected,
   walletconnect,
