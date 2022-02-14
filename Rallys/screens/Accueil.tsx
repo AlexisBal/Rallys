@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from '../components/Themed';
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ActivityIndicator } from 'react-native'
 import { RootStackParamList } from '../types';
 import { StackScreenProps } from '@react-navigation/stack';
 import Constants from 'expo-constants';
@@ -15,7 +15,8 @@ export class Accueil extends React.Component<Props> {
   constructor(props: Props) {
     super(props),
     this.state = {
-      rallye: {}
+      rallye: {},
+      isLoading: false
     }
   }
 

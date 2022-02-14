@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Rallys",
-    "slug": "Rallys",
+    "name": "rallys",
+    "slug": "rallys",
     "version": "1.0.0",
     "owner": "alexbal",
     "orientation": "portrait",
@@ -30,6 +30,7 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
