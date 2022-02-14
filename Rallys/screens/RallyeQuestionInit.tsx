@@ -39,17 +39,6 @@ export class RallyeQuestionInit extends React.Component<Props> {
     }
   }
 
-  _displayLoading() {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.loading_container}>
-          <ActivityIndicator size='large' />
-          {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
-        </View>
-      )
-    }
-  }
-
   // Changement de couleur pressé
   ChangeColor(rep:string, boutonId:any){
       if (this.state["backgroundColor"+boutonId] == '#2196F3') {
@@ -119,13 +108,23 @@ export class RallyeQuestionInit extends React.Component<Props> {
     return (
       <View style={styles.main_container}>
         <ScrollView ref={this.ref} onContentSizeChange={() => this.ref.current.scrollToEnd({ animated: true })}>
-          <Image
-            style={styles.image}
-            source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye.question1.photo}}
-            onLoadStart={() => this.setState({loading: true})}
-            onLoadEnd={() => this.setState({loading: false})}
-          />
-          {this._displayLoading()}
+          <View style={{flex:1, alignItems: 'center', justifyContent:'center' }}>
+            { this.state.isLoading ?
+              <View style={styles.loading_container}>
+                  <ActivityIndicator size='large' />
+              </View>
+              : null
+            }
+            <Image
+              key={rallye.rallye.question1.photo}
+              style={{marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
+              source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye.question1.photo}}
+              onLoadStart={() => this.setState({loading: true})}
+              onLoadEnd={() => this.setState({loading: false})}
+              onProgress={() => this.setState({loading: true})}
+              onLoad={() => this.setState({loading: true})}
+            />
+          </View>
           <Text style={styles.texte}>
             {rallye.rallye.question1.enonce}
             <Text style={styles.innerText}>{rallye.rallye.question1.question}</Text>
