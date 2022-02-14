@@ -24,12 +24,9 @@ export class ReponseScreen extends React.Component<Props> {
     const rallyes_reponse = this.props.route.params.rallyes_reponse;
     console.log(rallyes_reponse)
     var score = this.props.route.params.score;
-    var etape_suivante = "";
+    var etape_suivante = "RallyeQuestion"
     if (id_question == rallye.rallye.nombre_questions) {
-      etape_suivante = "ScoreRallye"
-    }
-    else {
-      etape_suivante = question_suivante;
+      etape_suivante = "ScoreRallye";
     }
    
     // Liste des réponses sélectionnées 
@@ -135,7 +132,7 @@ export class ReponseScreen extends React.Component<Props> {
                   {rallye.rallye[question].explication}
                 </Text>
                 <View style={styles.Button}>
-                  <Button type="clear" onPress={() => this.props.navigation.navigate("RallyeQuestion", {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
+                  <Button type="clear" onPress={() => this.props.navigation.navigate(etape_suivante, {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
                 </View>
             </ScrollView> 
           </View>
@@ -161,7 +158,7 @@ export class ReponseScreen extends React.Component<Props> {
                     </Text>
                 </View>
                 <View style={styles.Button}>
-                  <Button type="clear" onPress={() => this.props.navigation.navigate("RallyeQuestion", {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
+                  <Button type="clear" onPress={() => this.props.navigation.navigate(etape_suivante, {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
                 </View>
             </ScrollView> 
           </View>
@@ -194,7 +191,7 @@ export class ReponseScreen extends React.Component<Props> {
                   {rallye.rallye[question].explication}
                 </Text>
                 <View style={styles.Button}>
-                  <Button type="clear" onPress={() => this.props.navigation.navigate("RallyeQuestion", {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
+                  <Button type="clear" onPress={() => this.props.navigation.navigate(etape_suivante, {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
                 </View>
             </ScrollView> 
           </View>
@@ -221,7 +218,7 @@ export class ReponseScreen extends React.Component<Props> {
                     </Text>
                 </View>
                 <View style={styles.Button}>
-                  <Button type="clear" onPress={() => this.props.navigation.navigate("RallyeQuestion", {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
+                  <Button type="clear" onPress={() => this.props.navigation.navigate(etape_suivante, {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
                 </View>
             </ScrollView> 
           </View>

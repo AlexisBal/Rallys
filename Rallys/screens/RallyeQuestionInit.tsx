@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Text, View } from '../components/Themed';
-import { StyleSheet, Image, ScrollView} from 'react-native';
+import { StyleSheet, Image, ScrollView, ActivityIndicator} from 'react-native';
 import { Button, colors, ListItem } from 'react-native-elements';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
@@ -8,6 +8,7 @@ import { RootStackParamList } from '../types';
 type Props = StackScreenProps<RootStackParamList, 'RallyeQuestionInit'>;
 
 export class RallyeQuestionInit extends React.Component<Props> {
+  ref: React.RefObject<unknown>;
   // Constructeur de l'objet 
   constructor(props: Props) {
     super(props)
@@ -28,13 +29,24 @@ export class RallyeQuestionInit extends React.Component<Props> {
       rallyes_reponse6: '',
       rallyes_reponse7: '',
       display: 'none',
-      displayImage: 'flex'
+      displayImage: 'flex',
+      isLoading: false
     };
     this.ref = React.createRef();
-    this.ChangeColor = this.ChangeColor.bind(this);
     // Image 
     if (!this.props.route.params.rallye.rallye.question1.photo) {
       this.state.displayImage = 'none';
+    }
+  }
+
+  _displayLoading() {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.loading_container}>
+          <ActivityIndicator size='large' />
+          {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
+        </View>
+      )
     }
   }
 
@@ -110,7 +122,10 @@ export class RallyeQuestionInit extends React.Component<Props> {
           <Image
             style={styles.image}
             source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye.question1.photo}}
+            onLoadStart={() => this.setState({loading: true})}
+            onLoadEnd={() => this.setState({loading: false})}
           />
+          {this._displayLoading()}
           <Text style={styles.texte}>
             {rallye.rallye.question1.enonce}
             <Text style={styles.innerText}>{rallye.rallye.question1.question}</Text>
@@ -139,6 +154,15 @@ export class RallyeQuestionInit extends React.Component<Props> {
 }
 
 const styles = StyleSheet.create({
+    loading_container: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 100,
+      bottom: 0,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
     image: {
       flex:1,
       marginTop: 15,
@@ -146,7 +170,8 @@ const styles = StyleSheet.create({
       paddingRight: 20,
       width: 330,
       height: 190,
-      alignSelf: 'center'
+      alignSelf: 'center',
+      backgroundColor: "#EFEFEF"
     },
     main_container: {
       flex: 1,

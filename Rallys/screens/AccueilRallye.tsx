@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from '../components/Themed';
-import { StyleSheet, Image, SafeAreaView, ScrollView, Button } from 'react-native';
+import { StyleSheet, Image, ScrollView, Button, ActivityIndicator } from 'react-native';
 import { getRallyeData } from '../Helpers/RallyesData';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
@@ -12,7 +12,8 @@ export class AccueilRallye extends React.Component<Props> {
   constructor(props: Props) {
     super(props),
     this.state = {
-      rallye: {}
+      rallye: {},
+      isLoading: false
     }
   }
   
@@ -21,6 +22,17 @@ export class AccueilRallye extends React.Component<Props> {
       this.setState({ rallye: data.results })
     })
   }
+
+  _displayLoading() {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.loading_container}>
+          <ActivityIndicator size='large' />
+          {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
+        </View>
+      )
+    }
+  }
   
   render() {
     const rallye = this.props.route.params.rallye;
@@ -28,9 +40,12 @@ export class AccueilRallye extends React.Component<Props> {
       <View style={styles.main_container}>
         <ScrollView>
           <View style={styles.main_container_2}>
+            {this._displayLoading()}
             <Image
               style={styles.image}
               source={{uri: "https://ipfs.io/ipfs/"+rallye.photo1}}
+              onLoadStart={() => this.setState({loading: true})}
+              onLoadEnd={() => this.setState({loading: false})}
             />
             <View style={styles.content_container}>
               <View style={styles.header_container}>
@@ -57,6 +72,15 @@ export class AccueilRallye extends React.Component<Props> {
 }
 
 const styles = StyleSheet.create({
+  loading_container: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 100,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   main_container: {
     flex: 1,
     paddingBottom: Constants.statusBarHeight,

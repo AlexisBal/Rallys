@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from '../components/Themed';
-import { StyleSheet, Image, ScrollView} from 'react-native';
+import { StyleSheet, Image, ScrollView, ActivityIndicator} from 'react-native';
 import { Button } from 'react-native-elements';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
@@ -8,6 +8,8 @@ import { RootStackParamList } from '../types';
 type Props = StackScreenProps<RootStackParamList, 'RallyeQuestion'>;
 
 export class RallyeQuestion extends React.Component<Props> {
+  ref: React.RefObject<unknown>;
+  question: any;
   // Constructeur de l'objet 
   constructor(props: Props) {
     super(props)
@@ -28,10 +30,15 @@ export class RallyeQuestion extends React.Component<Props> {
       rallyes_reponse6: '',
       rallyes_reponse7: '',
       display: 'none',
-      displayImage: 'flex'
+      displayImage: 'flex',
+      isLoading: false
     };
     this.ref = React.createRef();
     this.question = this.props.route.params.question_suivante;
+    // Image 
+    if (!this.props.route.params.rallye.rallye.question1.photo) {
+      this.state.displayImage = 'none';
+    }
   }
 
   // Méthode reset de la page 
@@ -134,10 +141,20 @@ export class RallyeQuestion extends React.Component<Props> {
     return (
       <View style={styles.main_container}>
         <ScrollView ref={this.ref} onContentSizeChange={() => this.ref.current.scrollToEnd({ animated: true })}>
-          <Image
-            style={styles.image}
-            source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye[question].photo}}
-          />
+          <View style={{flex:1, alignItems: 'center', justifyContent:'center' }}>
+            { this.state.isLoading ?
+              <View style={styles.loading_container}>
+                  <ActivityIndicator size='large' />
+              </View>
+              : null
+            }
+            <Image
+              style={{marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.state.displayImage, backgroundColor: "#EFEFEF"}}
+              source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye[question].photo}}
+              onLoadStart={() => this.setState({loading: true})}
+              onLoadEnd={() => this.setState({loading: false})}
+            />
+          </View>
           <Text style={styles.texte}>
             {rallye.rallye[question].enonce}
             <Text style={styles.innerText}>{rallye.rallye[question].question}</Text>
@@ -173,6 +190,14 @@ export class RallyeQuestion extends React.Component<Props> {
 }
 
 const styles = StyleSheet.create({
+    loading_container: {
+      backgroundColor: "#EFEFEF",
+      position: 'absolute',
+      flex:1,
+      justifyContent:'center',
+      alignSelf: 'center',
+      zIndex: 10,
+    },
     image: {
         flex:1,
         marginTop: 15,
