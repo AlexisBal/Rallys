@@ -13,7 +13,7 @@ export class AccueilRallye extends React.Component<Props> {
     super(props),
     this.state = {
       rallye: {},
-      isLoading: false
+      isLoading: true
     }
   }
   
@@ -40,10 +40,8 @@ export class AccueilRallye extends React.Component<Props> {
                 key={rallye.title}
                 style={{marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
                 source={{uri: "https://ipfs.io/ipfs/"+rallye.photo1}}
-                onLoadStart={() => this.setState({loading: true})}
-                onLoadEnd={() => this.setState({loading: false})}
-                onProgress={() => this.setState({loading: true})}
-                onLoad={() => this.setState({loading: true})}
+                onLoadStart={() => this.setState({isLoading: true})}
+                onLoadEnd={() => this.setState({isLoading: false})}
               />
             </View>
             <View style={styles.content_container}>

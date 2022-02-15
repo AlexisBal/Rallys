@@ -4,7 +4,6 @@ import { StyleSheet, Image, ScrollView, ActivityIndicator} from 'react-native';
 import { Button } from 'react-native-elements';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
-import Constants from 'expo-constants';
 
 type Props = StackScreenProps<RootStackParamList, 'RallyeQuestion'>;
 
@@ -31,7 +30,7 @@ export class RallyeQuestion extends React.Component<Props> {
       rallyes_reponse6: '',
       rallyes_reponse7: '',
       display: 'none',
-      isLoading: false
+      isLoading: true
     };
     this.ref = React.createRef();
     this.question = this.props.route.params.question_suivante;
@@ -106,6 +105,7 @@ export class RallyeQuestion extends React.Component<Props> {
       this.displayImage = "flex";
       if (!this.props.route.params.rallye.rallye[this.question].photo) {
         this.displayImage = 'none';
+        this.setState({isLoading: false});
       }
     }
   }
@@ -147,7 +147,7 @@ export class RallyeQuestion extends React.Component<Props> {
         <ScrollView ref={this.ref} contentContainerStyle={{flexGrow: 1}} onContentSizeChange={() => this.ref.current.scrollToEnd({ animated: true })}>
           <View style={{flex:1}}>
             <View style={{flex:1}}>
-              <View style={{flex:1, alignItems: 'center', justifyContent:'center' }}>
+              <View style={{alignItems: 'center', justifyContent:'center' }}>
                 { this.state.isLoading ?
                   <View style={styles.loading_container}>
                       <ActivityIndicator size='large' />
@@ -158,10 +158,8 @@ export class RallyeQuestion extends React.Component<Props> {
                   key={rallye.rallye[question].photo}
                   style={{ marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
                   source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye[question].photo}}
-                  onLoadStart={() => this.setState({loading: true})}
-                  onLoadEnd={() => this.setState({loading: false})}
-                  onProgress={() => this.setState({loading: true})}
-                  onLoad={() => this.setState({loading: true})}
+                  onLoadStart={() => this.setState({isLoading: true})}
+                  onLoadEnd={() => this.setState({isLoading: false})}
                 />
                 <Text style={styles.texte}>
                   {rallye.rallye[question].enonce}
@@ -201,10 +199,7 @@ export class RallyeQuestion extends React.Component<Props> {
 
 const styles = StyleSheet.create({
     loading_container: {
-      backgroundColor: "#EFEFEF",
-      position: 'absolute',
-      flex:1,
-      justifyContent:'center',
+      marginTop: 20,
       alignSelf: 'center',
       zIndex: 10,
     },
