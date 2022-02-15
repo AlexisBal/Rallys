@@ -22,7 +22,6 @@ export class ReponseScreen extends React.Component<Props> {
     const question_suivante = 'question' + id_question_suivante;
     const rallye = this.props.route.params.rallye;
     const rallyes_reponse = this.props.route.params.rallyes_reponse;
-    console.log(rallyes_reponse)
     var score = this.props.route.params.score;
     var etape_suivante = "RallyeQuestion"
     if (id_question == rallye.rallye.nombre_questions) {
