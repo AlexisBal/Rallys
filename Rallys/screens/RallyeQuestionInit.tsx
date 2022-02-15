@@ -132,10 +132,11 @@ export class RallyeQuestionInit extends React.Component<Props> {
             </View>
             <View style={styles.container}>
               {proposititionItems.map((propositition) =>
-                <View style={{ flex: 1, marginTop: 18}} key={propositition[0].toString()}>
+                <View style={{ flex:2, paddingTop:40, padding:5, minWidth:"40%"}} key={propositition[0].toString()}>
                   <Button 
-                    buttonStyle={{borderRadius: 20, height: 45, backgroundColor: this.state["backgroundColor"+propositition[2]]}} 
-                    containerStyle={{borderRadius: 20, flex:1}} 
+                    buttonStyle={{ borderRadius: 20, height: 45, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
+                    titleStyle={{flex:1}} 
+                    containerStyle={{borderRadius: 20}} 
                     title={propositition[0]} 
                     onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
                   />
@@ -144,7 +145,7 @@ export class RallyeQuestionInit extends React.Component<Props> {
             </View>
             <View style={{display: this.state.display, width:"100%", marginTop: 20 }}>
                 <Button 
-                  buttonStyle={{height:70, borderRadius: 0, backgroundColor: 'black'}} 
+                  buttonStyle={{height:70, borderRadius: 0, backgroundColor: '#054AAD'}} 
                   containerStyle={{ borderRadius: 0, width:"100%"}} 
                   title="CONFIRMER"  
                   onPress={() => {
@@ -162,7 +163,7 @@ export class RallyeQuestionInit extends React.Component<Props> {
 
 const styles = StyleSheet.create({
     loading_container: {
-      marginTop: 20,
+      marginTop: 50,
       alignSelf: 'center',
       zIndex: 10,
     },
@@ -180,10 +181,14 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     container: {
-      flex:1,
-      marginTop: 10,
-      paddingLeft: 20,
-      paddingRight: 20,
+      flex:2,
+      marginLeft: 10,
+      marginRight: 10,
+      marginBottom:20,
+      justifyContent: 'center',
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: 'center'
     },
     innerText:{
       paddingLeft: 20,

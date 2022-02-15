@@ -35,9 +35,9 @@ function MainStackScreen() {
   return (
     <MainStack.Navigator>
       <MainStack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }}/>
-      <MainStack.Screen name="RallyeIndisponible" component={RallyeIndisponible} options={{ title: 'Rallyes indisponibles' }}/>
-      <MainStack.Screen name="AccueilRallye" component={AccueilRallye} options={{ title: 'Accueil Rallye' }}/>
-      <MainStack.Screen name="Regles" component={Regles} options={{ title: 'Règles' }}/>
+      <MainStack.Screen name="RallyeIndisponible" component={RallyeIndisponible} options={{ title: 'Rallyes indisponibles', headerShown: false }}/>
+      <MainStack.Screen name="AccueilRallye" component={AccueilRallye} options={{ title: 'Accueil Rallye', headerShown: false  }}/>
+      <MainStack.Screen name="Regles" component={Regles} options={{ title: 'Règles', headerShown: false  }}/>
       <MainStack.Screen name="RallyeQuestionInit" component={RallyeQuestionInit} options={{ title: 'Question 1', gestureEnabled:false, headerLeft: () => null }}/>
       <MainStack.Screen name="RallyeQuestion" component={RallyeQuestion} options={({ route }) => ({ title: "Question "+route.params.id_question_suivante, gestureEnabled:false, headerLeft: () => null })}/>
       <MainStack.Screen name="ScoreRallye" component={ScoreRallye} options={{ title: 'Résultats', gestureEnabled:false, headerLeft: () => null }}/>

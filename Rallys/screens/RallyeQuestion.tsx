@@ -148,12 +148,6 @@ export class RallyeQuestion extends React.Component<Props> {
           <View style={{flex:1}}>
             <View style={{flex:1}}>
               <View style={{alignItems: 'center', justifyContent:'center' }}>
-                { this.state.isLoading ?
-                  <View style={styles.loading_container}>
-                      <ActivityIndicator size='large' />
-                  </View>
-                  : null
-                }
                 <Image
                   key={rallye.rallye[question].photo}
                   style={{ marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
@@ -161,6 +155,12 @@ export class RallyeQuestion extends React.Component<Props> {
                   onLoadStart={() => this.setState({isLoading: true})}
                   onLoadEnd={() => this.setState({isLoading: false})}
                 />
+                { this.state.isLoading ?
+                  <View style={styles.loading_container}>
+                      <ActivityIndicator size='large' />
+                  </View>
+                  : null
+                }
                 <Text style={styles.texte}>
                   {rallye.rallye[question].enonce}
                   <Text style={styles.innerText}>{rallye.rallye[question].question}</Text>
@@ -169,19 +169,20 @@ export class RallyeQuestion extends React.Component<Props> {
             </View>
             <View style={styles.container}>
               {proposititionItems.map((propositition) =>
-                <View style={{ flex: 1, marginTop: 18}} key={propositition[0].toString()}>
-                  <Button 
-                    buttonStyle={{borderRadius: 20, height: 45, backgroundColor: this.state["backgroundColor"+propositition[2]]}} 
-                    containerStyle={{borderRadius: 20, flex:1}} 
-                    title={propositition[0]} 
-                    onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
-                  />
-                </View>
+                <View style={{ flex:2, paddingTop:40, padding:5, minWidth:"40%", }} key={propositition[0].toString()}>
+                 <Button 
+                  buttonStyle={{ borderRadius: 20, height: 45, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
+                  titleStyle={{fontSize: 18}} 
+                  containerStyle={{borderRadius: 20, width:"100%"}} 
+                  title={propositition[0]} 
+                  onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
+                />
+              </View>
               )}
             </View>
             <View style={{display: this.state.display, width:"100%", marginTop: 20 }}>
                 <Button 
-                  buttonStyle={{height:70, borderRadius: 0, backgroundColor: 'black'}} 
+                  buttonStyle={{height:70, borderRadius: 0, backgroundColor: '#054AAD'}} 
                   containerStyle={{ borderRadius: 0, width:"100%"}} 
                   title="CONFIRMER"  
                   onPress={() => {
@@ -199,9 +200,7 @@ export class RallyeQuestion extends React.Component<Props> {
 
 const styles = StyleSheet.create({
     loading_container: {
-      marginTop: 20,
       alignSelf: 'center',
-      zIndex: 10,
     },
     image: {
         flex:1,
@@ -212,16 +211,18 @@ const styles = StyleSheet.create({
         height: 210,
         alignSelf: 'center'
       },
-     main_container: {
-        flex:1,
-        flexDirection: "column"
+    main_container: {
+      flex: 1,
     },
     container: {
-      flex:3,
-      marginTop: 10,
-      paddingLeft: 20,
-      paddingRight: 20,
-      marginBottom:20
+      flex:2,
+      marginLeft: 10,
+      marginRight: 10,
+      marginBottom:20,
+      justifyContent: 'center',
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: 'center'
     },
     innerText:{
       flex:1,
