@@ -13,7 +13,7 @@ export class AccueilRallye extends React.Component<Props> {
     super(props),
     this.state = {
       rallye: {},
-      isLoading: false
+      isLoading: true
     }
   }
   
@@ -22,17 +22,6 @@ export class AccueilRallye extends React.Component<Props> {
       this.setState({ rallye: data.results })
     })
   }
-
-  _displayLoading() {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.loading_container}>
-          <ActivityIndicator size='large' />
-          {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
-        </View>
-      )
-    }
-  }
   
   render() {
     const rallye = this.props.route.params.rallye;
@@ -40,13 +29,21 @@ export class AccueilRallye extends React.Component<Props> {
       <View style={styles.main_container}>
         <ScrollView>
           <View style={styles.main_container_2}>
-            {this._displayLoading()}
-            <Image
-              style={styles.image}
-              source={{uri: "https://ipfs.io/ipfs/"+rallye.photo1}}
-              onLoadStart={() => this.setState({loading: true})}
-              onLoadEnd={() => this.setState({loading: false})}
-            />
+            <View style={{flex:1, alignItems: 'center', justifyContent:'center' }}>
+              { this.state.isLoading ?
+                <View style={styles.loading_container}>
+                    <ActivityIndicator size='large' />
+                </View>
+                : null
+              }
+              <Image
+                key={rallye.title}
+                style={{marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
+                source={{uri: "https://ipfs.io/ipfs/"+rallye.photo1}}
+                onLoadStart={() => this.setState({isLoading: true})}
+                onLoadEnd={() => this.setState({isLoading: false})}
+              />
+            </View>
             <View style={styles.content_container}>
               <View style={styles.header_container}>
                 <Text style={styles.title_text}>{rallye.title}</Text>
@@ -83,15 +80,9 @@ const styles = StyleSheet.create({
   },
   main_container: {
     flex: 1,
-    paddingBottom: Constants.statusBarHeight,
   },
   main_container_2: {
     marginTop: 20,
-  },
-  image: {
-    width: 300,
-    height: 200,
-    alignSelf: 'center'
   },
   container: {
     marginTop: 30,
