@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from '../components/Themed';
-import { StyleSheet, ActivityIndicator } from 'react-native'
+import { StyleSheet, ActivityIndicator, Image } from 'react-native'
 import { RootStackParamList } from '../types';
 import { StackScreenProps } from '@react-navigation/stack';
 import Constants from 'expo-constants';
@@ -31,9 +31,6 @@ export class Accueil extends React.Component<Props> {
     console.log(rallye);
     return (
       <View style={styles.main_container}>
-        <Text style={styles.titre}>
-            Bienvenue sur Rallys, l'application qui permet de découvrir tout en marchant, les plus beaux sites et villages français !
-        </Text>
         <View style={styles.container}>
             <Text style={styles.titre2}>
                   Chercher un rallye
@@ -56,6 +53,10 @@ export class Accueil extends React.Component<Props> {
               />
             </View>
         </View>
+        <Image
+            style={{flex:1, alignSelf: 'center', resizeMode: "contain"}}
+            source={require("../assets/images/icon.png")}
+        />
       </View>
     )
   }
