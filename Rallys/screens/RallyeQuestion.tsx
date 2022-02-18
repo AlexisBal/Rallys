@@ -30,15 +30,10 @@ export class RallyeQuestion extends React.Component<Props> {
       rallyes_reponse6: '',
       rallyes_reponse7: '',
       display: 'none',
-      isLoading: true
+      isLoading: true,
+      displayImage: "flex"
     };
     this.ref = React.createRef();
-    this.question = this.props.route.params.question_suivante;
-    // Image 
-    this.displayImage = "flex";
-    if (!this.props.route.params.rallye.rallye[this.question].photo) {
-      this.displayImage = 'none';
-    }
   }
 
   // Méthode reset de la page 
@@ -60,16 +55,18 @@ export class RallyeQuestion extends React.Component<Props> {
       rallyes_reponse6: '',
       rallyes_reponse7: '',
       display: 'none',
-      displayImage: 'flex'
+      isLoading: true,
+      displayImage: "flex"
     });
   }
+
 
   // Changement de couleur pressé
   ChangeColor(rep:string, boutonId:any){
     if (this.state["backgroundColor"+boutonId] == '#2196F3') {
-      if (this.state.nombre_reponses < this.props.route.params.rallye.rallye[this.question].point) {
+      if (this.state.nombre_reponses < this.props.route.params.rallye.rallye[this.props.route.params.question_suivante].point) {
         var reponses = this.state.nombre_reponses + 1
-        if (reponses == this.props.route.params.rallye.rallye[this.question].point) {
+        if (reponses == this.props.route.params.rallye.rallye[this.props.route.params.question_suivante].point) {
           this.state["backgroundColor"+boutonId] = 'black';
           this.state["rallyes_reponse"+boutonId] = rep;
           this.setState({
@@ -100,15 +97,13 @@ export class RallyeQuestion extends React.Component<Props> {
 
   componentDidUpdate(nextProps) {
     if (nextProps.route.params.id_question_suivante !== this.props.route.params.id_question_suivante) {
-      this.question = this.props.route.params.question_suivante;
       this.resetForm();
-      this.displayImage = "flex";
-      if (!this.props.route.params.rallye.rallye[this.question].photo) {
-        this.displayImage = 'none';
-        this.setState({isLoading: false});
+      if (!this.props.route.params.rallye.rallye[this.props.route.params.question_suivante].photo) {
+        this.setState({isLoading: false, displayImage: "none"});
       }
     }
   }
+
 
   render() {
     // Fichier JSON
@@ -148,19 +143,18 @@ export class RallyeQuestion extends React.Component<Props> {
           <View style={{flex:1}}>
             <View style={{flex:1}}>
               <View style={{alignItems: 'center', justifyContent:'center' }}>
+                <Image
+                  key={rallye.rallye[question].photo}
+                  style={{ marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.state.displayImage, resizeMode: "contain"}}
+                  source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye[question].photo}}
+                  onLoadEnd={() => this.setState({isLoading:false})}
+                />
                 { this.state.isLoading ?
                   <View style={styles.loading_container}>
                       <ActivityIndicator size='large' />
                   </View>
                   : null
                 }
-                <Image
-                  key={rallye.rallye[question].photo}
-                  style={{ marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
-                  source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye[question].photo}}
-                  onLoadStart={() => this.setState({isLoading: true})}
-                  onLoadEnd={() => this.setState({isLoading: false})}
-                />
                 <Text style={styles.texte}>
                   {rallye.rallye[question].enonce}
                   <Text style={styles.innerText}>{rallye.rallye[question].question}</Text>
@@ -169,23 +163,23 @@ export class RallyeQuestion extends React.Component<Props> {
             </View>
             <View style={styles.container}>
               {proposititionItems.map((propositition) =>
-                <View style={{ flex: 1, marginTop: 18}} key={propositition[0].toString()}>
-                  <Button 
-                    buttonStyle={{borderRadius: 20, height: 45, backgroundColor: this.state["backgroundColor"+propositition[2]]}} 
-                    containerStyle={{borderRadius: 20, flex:1}} 
-                    title={propositition[0]} 
-                    onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
-                  />
-                </View>
+                <View style={{paddingTop:40, padding:10, minWidth:"40%", }} key={propositition[0].toString()}>
+                 <Button 
+                  buttonStyle={{ borderRadius: 30, height: 50, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
+                  titleStyle={{fontSize: 20, padding: 20}} 
+                  title={propositition[0]} 
+                  onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
+                />
+              </View>
               )}
             </View>
             <View style={{display: this.state.display, width:"100%", marginTop: 20 }}>
                 <Button 
-                  buttonStyle={{height:70, borderRadius: 0, backgroundColor: 'black'}} 
+                  buttonStyle={{height:70, borderRadius: 0, backgroundColor: '#054AAD'}} 
                   containerStyle={{ borderRadius: 0, width:"100%"}} 
                   title="CONFIRMER"  
                   onPress={() => {
-                    this.displayImage = 'none',
+                    this.state.displayImage = 'none',
                     this.props.navigation.navigate('ReponseScreen', {rallye, id_question, rallyes_reponse, score});
                   }}
                 />
@@ -199,9 +193,8 @@ export class RallyeQuestion extends React.Component<Props> {
 
 const styles = StyleSheet.create({
     loading_container: {
-      marginTop: 20,
       alignSelf: 'center',
-      zIndex: 10,
+      marginTop: 20
     },
     image: {
         flex:1,
@@ -212,16 +205,18 @@ const styles = StyleSheet.create({
         height: 210,
         alignSelf: 'center'
       },
-     main_container: {
-        flex:1,
-        flexDirection: "column"
+    main_container: {
+      flex: 1,
     },
     container: {
-      flex:3,
-      marginTop: 10,
-      paddingLeft: 20,
-      paddingRight: 20,
-      marginBottom:20
+      flex:2,
+      marginLeft: 10,
+      marginRight: 10,
+      marginBottom:20,
+      justifyContent: 'center',
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: 'center'
     },
     innerText:{
       flex:1,

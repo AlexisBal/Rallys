@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   },
   main_container: {
     flex: 1,
+    paddingBottom: 20
   },
   main_container_2: {
     marginTop: 20,

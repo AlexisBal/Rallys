@@ -60,6 +60,7 @@ export class Regles extends React.Component<Props> {
 const styles = StyleSheet.create({
     main_container: {
       flex: 1,
+      paddingTop: Constants.statusBarHeight,
       paddingBottom: Constants.statusBarHeight,
     },
     container: {

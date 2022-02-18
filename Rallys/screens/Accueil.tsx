@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from '../components/Themed';
-import { StyleSheet, ActivityIndicator } from 'react-native'
+import { StyleSheet, ActivityIndicator, Image } from 'react-native'
 import { RootStackParamList } from '../types';
 import { StackScreenProps } from '@react-navigation/stack';
 import Constants from 'expo-constants';
@@ -28,34 +28,23 @@ export class Accueil extends React.Component<Props> {
 
   render() {
     var rallye = this.state.rallye;
-    console.log(rallye);
     return (
       <View style={styles.main_container}>
-        <Text style={styles.titre}>
-            Bienvenue sur Rallys, l'application qui permet de découvrir tout en marchant, les plus beaux sites et villages français !
-        </Text>
+        <Image
+            style={{flex:1.5, alignSelf: 'center', resizeMode: "contain"}}
+            source={require("../assets/images/logo.png")}
+        />
         <View style={styles.container}>
-            <Text style={styles.titre2}>
-                  Chercher un rallye
-            </Text>
-            <View style={styles.Searchcontainer}>
-              <Button
-                icon={
-                  <Icon
-                    name="search"
-                    size={18}
-                    color="#959595"
-                    style={{marginLeft:10}}
-                  />
-                }
-                buttonStyle={styles.button}
-                containerStyle={styles.textInputContainer}
-                title="Saisir une ville à proximité"
-                titleStyle={styles.textInput}
-                onPress={() => {this.props.navigation.navigate("AccueilRallye", {rallye})}}
-              />
-            </View>
+          <Button 
+              type="outline"
+              buttonStyle={styles.button}
+              title="Commencer"
+              titleStyle={styles.textInput}
+              containerStyle={styles.textInputContainer}
+              onPress={() => {this.props.navigation.navigate("AccueilRallye", {rallye})}}
+            />
         </View>
+
       </View>
     )
   }
@@ -64,37 +53,32 @@ export class Accueil extends React.Component<Props> {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
   },
   button:{
-    backgroundColor: '#F1F1F1',
+    backgroundColor: '#054AAD',
     height: 55,
     borderRadius: 30,
-    marginLeft: 10,
-    marginRight: 10
+    marginLeft: 20,
+    marginRight: 20,
 
   },
   Searchcontainer: {
-    marginTop: 20,
-    flex: 1
+    flex: 1,
   },
   textInputContainer: {
-    flex:1,
     height: 55,
     borderRadius: 30,
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   textInput: {
     flex: 1,
-    textAlign: 'left',
-    color: '#959595',
-    marginLeft: 15,
-    fontSize: 19,
+    color: 'white',
+    fontSize: 20,
   },
   container: {
-    marginTop: 10,
-    flex:1
+    justifyContent: 'center',
+    flex:1,
   },
   texte: {
     marginLeft: 20,
