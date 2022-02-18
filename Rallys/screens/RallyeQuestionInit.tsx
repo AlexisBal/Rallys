@@ -132,14 +132,13 @@ export class RallyeQuestionInit extends React.Component<Props> {
             </View>
             <View style={styles.container}>
               {proposititionItems.map((propositition) =>
-                <View style={{ flex:2, paddingTop:40, padding:5, minWidth:"40%"}} key={propositition[0].toString()}>
+                <View style={{ paddingTop:40, padding:10, minWidth:"40%"}} key={propositition[0].toString()}>
                   <Button 
-                    buttonStyle={{ borderRadius: 20, height: 45, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
-                    titleStyle={{flex:1}} 
-                    containerStyle={{borderRadius: 20}} 
-                    title={propositition[0]} 
-                    onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
-                  />
+                  buttonStyle={{ borderRadius: 30, height: 50, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
+                  titleStyle={{fontSize: 20, padding: 20}} 
+                  title={propositition[0]} 
+                  onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
+                />
                 </View>
               )}
             </View>
