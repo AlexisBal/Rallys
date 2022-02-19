@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, View } from '../components/Themed';
 import { StyleSheet, Image, ScrollView, ActivityIndicator} from 'react-native';
-import { Button, colors, ListItem } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 
@@ -30,7 +30,7 @@ export class RallyeQuestionInit extends React.Component<Props> {
       rallyes_reponse7: '',
       display: 'none',
       displayImage: 'flex',
-      isLoading: false
+      isLoading: true
     };
     this.ref = React.createRef();
     // Image 
@@ -108,9 +108,9 @@ export class RallyeQuestionInit extends React.Component<Props> {
     return (
       <View style={{flex:1, flexDirection: "column"}}>
         <ScrollView ref={this.ref} contentContainerStyle={{flexGrow: 1}} onContentSizeChange={() => this.ref.current.scrollToEnd({ animated: true })}>
-          <View style={{flex:1}}>
-            <View style={{flex:1}}>
-              <View style={{alignItems: 'center', justifyContent:'center' }}>
+          <View style={{flex:1, backgroundColor:"#eeeeee", paddingBottom:0}}>
+            <View style={{flex:1, backgroundColor: "#a8e6cf", paddingBottom:15, paddingTop:15, margin:15, borderRadius: 30}}>
+              <View style={{alignItems: 'center', justifyContent:'center', backgroundColor: "#a8e6cf", borderRadius: 30}}>
                 { this.state.isLoading ?
                   <View style={styles.loading_container}>
                       <ActivityIndicator size='large' />
@@ -119,9 +119,8 @@ export class RallyeQuestionInit extends React.Component<Props> {
                 }
                 <Image
                   key={rallye.rallye.question1.photo}
-                  style={{ marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
+                  style={{ marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.state.displayImage, resizeMode: "contain"}}
                   source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye.question1.photo}}
-                  onLoadStart={() => this.setState({isLoading: true})}
                   onLoadEnd={() => this.setState({isLoading: false})}
                 />
                 <Text style={styles.texte}>
@@ -142,17 +141,17 @@ export class RallyeQuestionInit extends React.Component<Props> {
                 </View>
               )}
             </View>
-            <View style={{display: this.state.display, width:"100%", marginTop: 20 }}>
-                <Button 
-                  buttonStyle={{height:70, borderRadius: 0, backgroundColor: '#054AAD'}} 
-                  containerStyle={{ borderRadius: 0, width:"100%"}} 
-                  title="CONFIRMER"  
-                  onPress={() => {
-                    this.displayImage = 'none',
-                    this.props.navigation.navigate('ReponseScreen', {rallye, id_question, rallyes_reponse, score});
-                  }}
-                />
-              </View>
+          </View>
+          <View style={{display: this.state.display, width:"100%", backgroundColor:"#eeeeee" }}>
+            <Button 
+              buttonStyle={{height:70, borderRadius: 0, backgroundColor: '#054AAD'}} 
+              containerStyle={{ borderRadius: 0, width:"100%"}} 
+              title="CONFIRMER"  
+              onPress={() => {
+                this.state.displayImage = 'none',
+                this.props.navigation.navigate('ReponseScreen', {rallye, id_question, rallyes_reponse, score});
+              }}
+            />
           </View>
         </ScrollView>
       </View>
@@ -164,17 +163,6 @@ const styles = StyleSheet.create({
     loading_container: {
       marginTop: 50,
       alignSelf: 'center',
-      zIndex: 10,
-    },
-    image: {
-      flex:1,
-      marginTop: 15,
-      paddingLeft: 20,
-      paddingRight: 20,
-      width: 330,
-      height: 190,
-      alignSelf: 'center',
-      backgroundColor: "#EFEFEF"
     },
     main_container: {
       flex: 1,
@@ -187,9 +175,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       flexDirection: "row",
       flexWrap: "wrap",
-      alignItems: 'center'
+      alignItems: 'center',
+      borderRadius: 30
     },
     innerText:{
+      flex:1,
       paddingLeft: 20,
       paddingRight: 20,
       marginTop: 15,
@@ -198,6 +188,7 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
     texte: {
+      flex:1,
       paddingLeft: 20,
       paddingRight: 20,
       marginTop: 15,
