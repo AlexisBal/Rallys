@@ -136,16 +136,17 @@ export class RallyeQuestion extends React.Component<Props> {
       }
     };
     rallyes_reponse[question] = reponse;
+    const colors = ["#E7DCFE", "#FEE8DC", "#FEDEDF", "#DCF3FE", "#BBEED9", "#FEDCFA", "white"]
 
     return (
       <View style={{flex:1, flexDirection: "column"}}>
         <ScrollView ref={this.ref} contentContainerStyle={{flexGrow: 1}} onContentSizeChange={() => this.ref.current.scrollToEnd({ animated: true })}>
-          <View style={{flex:1}}>
-            <View style={{flex:1}}>
-              <View style={{alignItems: 'center', justifyContent:'center' }}>
+          <View style={{flex:1, paddingBottom:0}}>
+            <View style={{flex:1, paddingBottom:15, paddingTop:15, margin:15, borderRadius: 30, backgroundColor: colors[3]}}>
+              <View style={{alignItems: 'center', justifyContent:'center', borderRadius: 30, backgroundColor: colors[3]}}>
                 <Image
                   key={rallye.rallye[question].photo}
-                  style={{ marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.state.displayImage, resizeMode: "contain"}}
+                  style={{ paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.state.displayImage, resizeMode: "contain"}}
                   source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye[question].photo}}
                   onLoadEnd={() => this.setState({isLoading:false})}
                 />
@@ -161,29 +162,31 @@ export class RallyeQuestion extends React.Component<Props> {
                 </Text>
               </View>
             </View>
-            <View style={styles.container}>
-              {proposititionItems.map((propositition) =>
-                <View style={{paddingTop:40, padding:10, minWidth:"40%", }} key={propositition[0].toString()}>
-                 <Button 
-                  buttonStyle={{ borderRadius: 30, height: 50, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
-                  titleStyle={{fontSize: 20, padding: 20}} 
-                  title={propositition[0]} 
-                  onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
-                />
+            <View style={{flex:2, marginLeft: 15, marginRight: 15, borderRadius: 30, marginBottom:20, justifyContent: 'center', backgroundColor: colors[4]}}>
+              <View style={{justifyContent: 'center', flexDirection: "row", flexWrap: "wrap", marginTop:20, marginBottom:20, borderRadius: 30, backgroundColor: colors[4]}}>
+                {proposititionItems.map((propositition) =>
+                  <View style={{ padding:10, minWidth:"40%", backgroundColor: colors[4]}} key={propositition[0].toString()}>
+                  <Button 
+                    buttonStyle={{ borderRadius: 30, height: 50, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
+                    titleStyle={{fontSize: 20, padding: 20}} 
+                    title={propositition[0]} 
+                    onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
+                  />
+                </View>
+                )}
               </View>
-              )}
             </View>
-            <View style={{display: this.state.display, width:"100%", marginTop: 20 }}>
-                <Button 
-                  buttonStyle={{height:70, borderRadius: 0, backgroundColor: '#054AAD'}} 
-                  containerStyle={{ borderRadius: 0, width:"100%"}} 
-                  title="CONFIRMER"  
-                  onPress={() => {
-                    this.state.displayImage = 'none',
-                    this.props.navigation.navigate('ReponseScreen', {rallye, id_question, rallyes_reponse, score});
-                  }}
-                />
-              </View>
+          </View>
+          <View style={{display: this.state.display, width:"100%", padding: 30 }}>
+            <Button 
+              buttonStyle={{height:60, backgroundColor: '#054AAD'}} 
+              containerStyle={{  width:"100%", borderRadius: 50}} 
+              title="CONFIRMER"  
+              onPress={() => {
+                this.state.displayImage = 'none',
+                this.props.navigation.navigate('ReponseScreen', {rallye, id_question, rallyes_reponse, score});
+              }}
+            />
           </View>
         </ScrollView>
       </View>
@@ -192,53 +195,30 @@ export class RallyeQuestion extends React.Component<Props> {
 }
 
 const styles = StyleSheet.create({
-    loading_container: {
-      alignSelf: 'center',
-      marginTop: 20
-    },
-    image: {
-        flex:1,
-        marginTop: 15,
-        paddingLeft: 20,
-        paddingRight: 20,
-        width: 170,
-        height: 210,
-        alignSelf: 'center'
-      },
-    main_container: {
-      flex: 1,
-    },
-    container: {
-      flex:2,
-      marginLeft: 10,
-      marginRight: 10,
-      marginBottom:20,
-      justifyContent: 'center',
-      flexDirection: "row",
-      flexWrap: "wrap",
-      alignItems: 'center'
-    },
-    innerText:{
-      flex:1,
-      paddingLeft: 20,
-      paddingRight: 20,
-      marginTop: 15,
-      fontSize: 21,
-      textAlign: 'left',
-      fontWeight: 'bold',
-    },
-    texte: {
-      flex:1,
-      paddingLeft: 20,
-      paddingRight: 20,
-      marginTop: 15,
-      fontSize: 21,
-      textAlign: 'left',
-    },
-    buttonBis: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      width: '100%', 
-    }
+  loading_container: {
+    alignSelf: 'center',
+  },
+  main_container: {
+    flex: 1,
+  },
+
+  innerText:{
+    flex:1,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 15,
+    fontSize: 21,
+    textAlign: 'left',
+    fontWeight: 'bold',
+  },
+  texte: {
+    flex:1,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 15,
+    fontSize: 21,
+    textAlign: 'left',
+    marginBottom: 15,
+  },
 })
 

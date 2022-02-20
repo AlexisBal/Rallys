@@ -4,7 +4,6 @@ import { StyleSheet, Image, ScrollView, Button, ActivityIndicator } from 'react-
 import { getRallyeData } from '../Helpers/RallyesData';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
-import Constants from 'expo-constants';
 
 type Props = StackScreenProps<RootStackParamList, 'AccueilRallye'>;
 

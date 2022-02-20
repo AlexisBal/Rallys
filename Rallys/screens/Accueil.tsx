@@ -31,7 +31,7 @@ export class Accueil extends React.Component<Props> {
     return (
       <View style={styles.main_container}>
         <Image
-            style={{flex:1.5, alignSelf: 'center', resizeMode: "contain"}}
+            style={{flex:1, alignSelf: 'center', resizeMode: "contain"}}
             source={require("../assets/images/logo.png")}
         />
         <View style={styles.container}>
@@ -53,6 +53,9 @@ export class Accueil extends React.Component<Props> {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: Constants.statusBarHeight*2
   },
   button:{
     backgroundColor: '#054AAD',
@@ -77,8 +80,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   container: {
-    justifyContent: 'center',
     flex:1,
+    justifyContent: "flex-end"
   },
   texte: {
     marginLeft: 20,
