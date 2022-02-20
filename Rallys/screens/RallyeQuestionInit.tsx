@@ -104,13 +104,14 @@ export class RallyeQuestionInit extends React.Component<Props> {
       }
     };
     rallyes_reponse['question1'] = reponse;
+    const colors = ["#E7DCFE", "#FEE8DC", "#FEDEDF", "#DCF3FE", "#BBEED9", "#FEDCFA", "white"]
     // Affichage
     return (
       <View style={{flex:1, flexDirection: "column"}}>
         <ScrollView ref={this.ref} contentContainerStyle={{flexGrow: 1}} onContentSizeChange={() => this.ref.current.scrollToEnd({ animated: true })}>
-          <View style={{flex:1, backgroundColor:"#eeeeee", paddingBottom:0}}>
-            <View style={{flex:1, backgroundColor: "#a8e6cf", paddingBottom:15, paddingTop:15, margin:15, borderRadius: 30}}>
-              <View style={{alignItems: 'center', justifyContent:'center', backgroundColor: "#a8e6cf", borderRadius: 30}}>
+          <View style={{flex:1, paddingBottom:0}}>
+            <View style={{flex:1, paddingBottom:15, paddingTop:15, margin:15, borderRadius: 30, backgroundColor: colors[3]}}>
+              <View style={{alignItems: 'center', justifyContent:'center', borderRadius: 30, backgroundColor: colors[3]}}>
                 { this.state.isLoading ?
                   <View style={styles.loading_container}>
                       <ActivityIndicator size='large' />
@@ -129,23 +130,25 @@ export class RallyeQuestionInit extends React.Component<Props> {
                 </Text>
               </View>
             </View>
-            <View style={styles.container}>
-              {proposititionItems.map((propositition) =>
-                <View style={{ paddingTop:40, padding:10, minWidth:"40%"}} key={propositition[0].toString()}>
-                  <Button 
-                  buttonStyle={{ borderRadius: 30, height: 50, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
-                  titleStyle={{fontSize: 20, padding: 20}} 
-                  title={propositition[0]} 
-                  onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
-                />
-                </View>
-              )}
+            <View style={{flex:2, marginLeft: 15, marginRight: 15, borderRadius: 30, marginBottom:20, justifyContent: 'center', backgroundColor: colors[4]}}>
+              <View style={{justifyContent: 'center', flexDirection: "row", flexWrap: "wrap", marginTop:20, marginBottom:20, borderRadius: 30, backgroundColor: colors[4]}}>
+                {proposititionItems.map((propositition) =>
+                  <View style={{ padding:10, minWidth:"40%", backgroundColor: colors[4]}} key={propositition[0].toString()}>
+                    <Button 
+                    buttonStyle={{ borderRadius: 30, height: 50, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
+                    titleStyle={{fontSize: 20, padding: 20}} 
+                    title={propositition[0]} 
+                    onPress={() => { this.ChangeColor(propositition[1], propositition[2]) }}
+                  />
+                  </View>
+                )}
+              </View>
             </View>
           </View>
-          <View style={{display: this.state.display, width:"100%", backgroundColor:"#eeeeee" }}>
+          <View style={{display: this.state.display, width:"100%", padding: 30 }}>
             <Button 
-              buttonStyle={{height:70, borderRadius: 0, backgroundColor: '#054AAD'}} 
-              containerStyle={{ borderRadius: 0, width:"100%"}} 
+              buttonStyle={{height:60, backgroundColor: '#054AAD'}} 
+              containerStyle={{  width:"100%", borderRadius: 50}} 
               title="CONFIRMER"  
               onPress={() => {
                 this.state.displayImage = 'none',
@@ -161,23 +164,12 @@ export class RallyeQuestionInit extends React.Component<Props> {
 
 const styles = StyleSheet.create({
     loading_container: {
-      marginTop: 50,
       alignSelf: 'center',
     },
     main_container: {
       flex: 1,
     },
-    container: {
-      flex:2,
-      marginLeft: 10,
-      marginRight: 10,
-      marginBottom:20,
-      justifyContent: 'center',
-      flexDirection: "row",
-      flexWrap: "wrap",
-      alignItems: 'center',
-      borderRadius: 30
-    },
+
     innerText:{
       flex:1,
       paddingLeft: 20,
@@ -194,6 +186,7 @@ const styles = StyleSheet.create({
       marginTop: 15,
       fontSize: 21,
       textAlign: 'left',
+      marginBottom: 15,
     },
 })
 
