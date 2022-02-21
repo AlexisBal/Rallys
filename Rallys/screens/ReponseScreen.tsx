@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
       textAlign: "left",
     },
     title_text: {
-      flex: 1,
       marginTop: Constants.statusBarHeight,
       fontWeight: 'bold',
       fontSize: 38,
@@ -195,14 +194,12 @@ const styles = StyleSheet.create({
       textAlign: 'left'
   },
   black_text: {
-    flex:1,
     marginTop: 20,
     fontWeight: 'bold',
     fontSize: 24,
     textAlign: 'left'
   },
   question_text: {
-    flex:1,
     marginTop: 20,
     fontWeight: 'bold',
     fontSize: 24,
