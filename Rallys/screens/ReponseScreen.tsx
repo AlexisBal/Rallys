@@ -106,171 +106,103 @@ export class ReponseScreen extends React.Component<Props> {
     const avancee = 0.0625 * id_question;
 
     // Affichage de la reponse
-    if (point == rallye.rallye[question].point) {
-      if (rallye.rallye[question].explication != "") {
-        return (
-          <View style={styles.main_container}>
-            <ScrollView> 
-                <View style={styles.header_container}>
-                    <View style={styles.progressbar_container}>
-                      <Text style={styles.progressbar_text}>Avancée du rallye : {avancee*100} %</Text>
-                      <ProgressBar progress={avancee} style={styles.progressbar} color={'#2196F3'} />
-                    </View>
-                    <Text style={styles.title_text}>Bonne réponse !</Text>
-                    <Text style={styles.title2_text}>
-                      <Text style={styles.black_text}>Question : </Text>
-                      {rallye.rallye[question].question}
-                    </Text>
-                    <Text style={styles.title2_text}>
-                      <Text style={styles.black_text}>Bonne réponse : </Text>
-                      {rallye.rallye[question].solution_text}
-                    </Text>
-                </View>
-                <Text style={styles.texte}>
-                  <Text style={styles.innerText}>Pour en savoir plus : </Text>
-                  {rallye.rallye[question].explication}
-                </Text>
-                <View style={styles.Button}>
-                  <Button type="clear" onPress={() => this.props.navigation.navigate(etape_suivante, {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
-                </View>
-            </ScrollView> 
+    return (
+      <View style={styles.main_container}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <View style={styles.header_container}>
+            <View style={styles.progressbar_container}>
+              <Text style={styles.progressbar_text}>Avancée du rallye : {avancee*100} %</Text>
+              <ProgressBar progress={avancee} style={styles.progressbar} color={'#2196F3'} />
+            </View>
+            {point == rallye.rallye[question].point ? 
+              <Text style={styles.title_text}>Bonne réponse !</Text>
+              : 
+              <Text style={styles.title_text}>{text_erreur}</Text>
+            }
+            <Text style={styles.title2_text}>
+              <Text style={styles.black_text}>Question : </Text>
+              {rallye.rallye[question].question}
+            </Text>
+            {point == rallye.rallye[question].point ?
+              null
+            : 
+              <Text style={styles.title2_text}>
+                <Text style={styles.black_text}>Réponse sélectionnée : </Text>
+                {rep}
+              </Text>
+            }
+            <Text style={styles.title2_text}>
+              <Text style={styles.black_text}>Bonne réponse : </Text>
+              {rallye.rallye[question].solution_text}
+            </Text>
+            {rallye.rallye[question].explication !== "" ?
+              <Text style={styles.texte}>
+                <Text style={styles.innerText}>Pour en savoir plus : </Text>
+                {rallye.rallye[question].explication}
+              </Text>
+              : null
+            }
           </View>
-        )
-      }
-      else {
-        return (
-          <View style={styles.main_container}>
-            <ScrollView> 
-                <View style={styles.header_container}>
-                    <View style={styles.progressbar_container}>
-                      <Text style={styles.progressbar_text}>Avancée du rallye : {avancee*100} %</Text>
-                      <ProgressBar progress={avancee} style={styles.progressbar} color={'#2196F3'} />
-                    </View>
-                    <Text style={styles.title_text}>Bonne réponse !</Text>
-                    <Text style={styles.title2_text}>
-                      <Text style={styles.black_text}>Question : </Text>
-                      {rallye.rallye[question].question}
-                    </Text>
-                    <Text style={styles.title2_text}>
-                      <Text style={styles.black_text}>Bonne réponse : </Text>
-                      {rallye.rallye[question].solution_text}
-                    </Text>
-                </View>
-                <View style={styles.Button}>
-                  <Button type="clear" onPress={() => this.props.navigation.navigate(etape_suivante, {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
-                </View>
-            </ScrollView> 
+          <View style={styles.Button}>
+            <Button type="clear" onPress={() => this.props.navigation.navigate(etape_suivante, {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
           </View>
-        )
-      }
-    }
-    else {
-      if (rallye.rallye[question].explication != "") {
-        return (
-          <View style={styles.main_container}>
-            <ScrollView> 
-                <View style={styles.header_container}>
-                    <View style={styles.progressbar_container}>
-                      <Text style={styles.progressbar_text}>Avancée du rallye : {avancee*100} %</Text>
-                      <ProgressBar progress={avancee} style={styles.progressbar} color={'#2196F3'} />
-                    </View>
-                    <Text style={styles.title_text}>{text_erreur}</Text>
-                    <Text style={styles.question_text}>Question : {rallye.rallye[question].question}</Text>
-                    <Text style={styles.title2_text}>
-                      <Text style={styles.black_text}>Réponse sélectionnée : </Text>
-                      {rep}
-                    </Text>
-                    <Text style={styles.title2_text}>
-                      <Text style={styles.black_text}>Bonne réponse : </Text>
-                      {rallye.rallye[question].solution_text}
-                    </Text>
-                </View>
-                <Text style={styles.texte}>
-                  <Text style={styles.innerText}>Pour en savoir plus : </Text>
-                  {rallye.rallye[question].explication}
-                </Text>
-                <View style={styles.Button}>
-                  <Button type="clear" onPress={() => this.props.navigation.navigate(etape_suivante, {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
-                </View>
-            </ScrollView> 
-          </View>
-        )
-      }
-      else {
-        return (
-          <View style={styles.main_container}>
-            <ScrollView> 
-                <View style={styles.header_container}>
-                    <View style={styles.progressbar_container}>
-                      <Text style={styles.progressbar_text}>Avancée du rallye : {avancee*100} %</Text>
-                      <ProgressBar progress={avancee} style={styles.progressbar} color={'#2196F3'} />
-                    </View>
-                    <Text style={styles.title_text}>{text_erreur}</Text>
-                    <Text style={styles.question_text}>Question : {rallye.rallye[question].question}</Text>
-                    <Text style={styles.title2_text}>
-                      <Text style={styles.black_text}>Réponse sélectionnée : </Text>
-                      {rep}
-                    </Text>
-                    <Text style={styles.title2_text}>
-                      <Text style={styles.black_text}>Bonne réponse : </Text>
-                      {rallye.rallye[question].solution_text}
-                    </Text>
-                </View>
-                <View style={styles.Button}>
-                  <Button type="clear" onPress={() => this.props.navigation.navigate(etape_suivante, {rallye, id_question_suivante, question_suivante, rallyes_reponse, score})} title="Continuer " />
-                </View>
-            </ScrollView> 
-          </View>
-        )
-      }
-    } 
+        </ScrollView> 
+      </View>
+    )
   }
 }
 
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    paddingTop: 2*Constants.statusBarHeight,
-    paddingBottom: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight,
     paddingLeft: 20,
     paddingRight: 20,
   },
   header_container: {
-    flex: 1
+    flex: 1,
   },
   Button: {
-    marginTop: 15,
-    flex:1,
+    marginTop: Constants.statusBarHeight,
+    marginBottom: Constants.statusBarHeight,
+    justifyContent:"flex-end",
+    flex: 1,
   },
   innerText:{
+      flex: 1,
       fontSize: 20,
       fontWeight: 'bold',
       textAlign: 'left',
     },
     texte: {
+      flex: 1,
       marginTop: 20,
       fontSize: 20,
       fontStyle: 'italic',
-      textAlign: 'left',
+      textAlign: "left",
     },
     title_text: {
-      marginTop: Constants.statusBarHeight*2,
+      flex: 1,
+      marginTop: Constants.statusBarHeight,
       fontWeight: 'bold',
       fontSize: 38,
       textAlign: 'center'
   },
   title2_text: {
+      flex: 1,
       marginTop: 20,
       fontSize: 24,
       textAlign: 'left'
   },
   black_text: {
+    flex:1,
     marginTop: 20,
     fontWeight: 'bold',
     fontSize: 24,
     textAlign: 'left'
   },
   question_text: {
+    flex:1,
     marginTop: 20,
     fontWeight: 'bold',
     fontSize: 24,

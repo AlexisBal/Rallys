@@ -4,6 +4,7 @@ import { StyleSheet, Image, ScrollView, Button, ActivityIndicator } from 'react-
 import { getRallyeData } from '../Helpers/RallyesData';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
+import Constants from 'expo-constants';
 
 type Props = StackScreenProps<RootStackParamList, 'AccueilRallye'>;
 
@@ -37,7 +38,7 @@ export class AccueilRallye extends React.Component<Props> {
               }
               <Image
                 key={rallye.title}
-                style={{marginTop: 15, paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
+                style={{width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
                 source={{uri: "https://ipfs.io/ipfs/"+rallye.photo1}}
                 onLoadStart={() => this.setState({isLoading: true})}
                 onLoadEnd={() => this.setState({isLoading: false})}
@@ -49,7 +50,7 @@ export class AccueilRallye extends React.Component<Props> {
               </View>
               <View style={styles.description_container}>
                 <Text style={styles.date_text}>Durée : {rallye.duree}</Text>
-                <View style={styles.button}>
+                <View style={styles.button1}>
                    <Button title="Passer la partie Histoire" onPress={() => {this.props.navigation.navigate("Regles", { rallye })}}/>
                 </View>
                 <View style={styles.description_container_bis}> 
@@ -57,7 +58,7 @@ export class AccueilRallye extends React.Component<Props> {
                 </View>
               </View>
             </View>
-            <View style={styles.button}>
+            <View style={styles.button2}>
                 <Button title='Voir les règles du jeu' onPress={() => {this.props.navigation.navigate("Regles", { rallye })}}/>
             </View>
           </View>
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
   },
   main_container: {
     flex: 1,
-    paddingBottom: 20
+    paddingTop: Constants.statusBarHeight
   },
   main_container_2: {
     marginTop: 20,
@@ -115,8 +116,13 @@ const styles = StyleSheet.create({
     color: '#666666',
     fontSize: 17,
   },
-  button: {
+  button1: {
+    marginTop: 15,
+    flex:1,
+  },
+  button2: {
     marginTop: 10,
+    marginBottom: Constants.statusBarHeight,
     flex:1,
   },
   date_text: {
