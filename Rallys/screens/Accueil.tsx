@@ -31,7 +31,7 @@ export class Accueil extends React.Component<Props> {
     return (
       <View style={styles.main_container}>
         <Image
-            style={{flex:1, alignSelf: 'center', resizeMode: "contain"}}
+            style={{flex:1.5, alignSelf: 'center', resizeMode: "contain"}}
             source={require("../assets/images/logo.png")}
         />
         <View style={styles.container}>

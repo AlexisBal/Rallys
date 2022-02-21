@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from '../components/Themed';
-import { StyleSheet, Image, ScrollView, ActivityIndicator} from 'react-native';
+import { StyleSheet, Image, ScrollView, ActivityIndicator, Alert} from 'react-native';
 import { Button } from 'react-native-elements';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
@@ -39,6 +39,35 @@ export class RallyeQuestionInit extends React.Component<Props> {
     }
   }
 
+  // Popup
+  Notif() {
+    Alert.alert(
+      "Trop de réponses sélectionnées !",
+      "Appuie sur les réponses sélectionnées pour modifier ton choix.",
+      [
+        {
+          text: "Annuler",
+          style: "cancel"
+        },
+        {
+          text: "Réinitialiser mon choix",
+          onPress: () => this.setState({
+            backgroundColor1: '#2196F3',
+            backgroundColor2: '#2196F3',
+            backgroundColor3: '#2196F3',
+            backgroundColor4: '#2196F3',
+            backgroundColor5: '#2196F3',
+            backgroundColor6: '#2196F3',
+            backgroundColor7: '#2196F3',
+            nombre_reponses: 0,
+            display: 'none'
+          }),
+        },
+      ],
+      { cancelable: false }
+    );
+  }
+
   // Changement de couleur pressé
   ChangeColor(rep:string, boutonId:any){
       if (this.state["backgroundColor"+boutonId] == '#2196F3') {
@@ -60,6 +89,8 @@ export class RallyeQuestionInit extends React.Component<Props> {
               display: 'none'
             }) 
           }
+        } else {
+          this.Notif()
         }
       }
       else {
