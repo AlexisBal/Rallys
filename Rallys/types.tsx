@@ -7,6 +7,7 @@ export type RootStackParamList = {
   RallyesDisponibles: {
     list_rallye: []
   };
+  Scanner: undefined;
   RallyeQuestionInit: undefined;
   RallyeIndisponible: undefined;
   AccueilRallye: {

@@ -135,14 +135,14 @@ export class RallyeQuestionInit extends React.Component<Props> {
       }
     };
     rallyes_reponse['question1'] = reponse;
-    const colors = ["#E7DCFE", "#FEE8DC", "#FEDEDF", "#DCF3FE", "#BBEED9", "#FEDCFA", "white"]
+    const colors = ["#E7DCFE", "#e0ffff", "#faebd7", "#FEDEDF", "#DCF3FE", "#BBEED9", "#FEDCFA", "white"]
     // Affichage
     return (
       <View style={{flex:1, flexDirection: "column"}}>
         <ScrollView ref={this.ref} contentContainerStyle={{flexGrow: 1}} onContentSizeChange={() => this.ref.current.scrollToEnd({ animated: true })}>
           <View style={{flex:1, paddingBottom:0}}>
-            <View style={{flex:1, paddingBottom:15, paddingTop:15, margin:15, borderRadius: 30, backgroundColor: colors[3]}}>
-              <View style={{alignItems: 'center', justifyContent:'center', borderRadius: 30, backgroundColor: colors[3]}}>
+            <View style={{flex:1, paddingBottom:15, paddingTop:15, margin:15, borderRadius: 30, backgroundColor: colors[2]}}>
+              <View style={{alignItems: 'center', justifyContent:'center', borderRadius: 30, backgroundColor: colors[2]}}>
                 { this.state.isLoading ?
                   <View style={styles.loading_container}>
                       <ActivityIndicator size='large' />
@@ -161,10 +161,10 @@ export class RallyeQuestionInit extends React.Component<Props> {
                 </Text>
               </View>
             </View>
-            <View style={{flex:2, marginLeft: 15, marginRight: 15, borderRadius: 30, marginBottom:20, justifyContent: 'center', backgroundColor: colors[4]}}>
-              <View style={{justifyContent: 'center', flexDirection: "row", flexWrap: "wrap", marginTop:20, marginBottom:20, borderRadius: 30, backgroundColor: colors[4]}}>
+            <View style={{flex:2, marginLeft: 15, marginRight: 15, borderRadius: 30, marginBottom:20, justifyContent: 'center', backgroundColor: colors[1]}}>
+              <View style={{justifyContent: 'center', flexDirection: "row", flexWrap: "wrap", marginTop:20, marginBottom:20, borderRadius: 30, backgroundColor: colors[1]}}>
                 {proposititionItems.map((propositition) =>
-                  <View style={{ padding:10, minWidth:"40%", backgroundColor: colors[4]}} key={propositition[0].toString()}>
+                  <View style={{ padding:10, minWidth:"40%", backgroundColor: colors[1]}} key={propositition[0].toString()}>
                     <Button 
                     buttonStyle={{ borderRadius: 30, height: 50, backgroundColor: this.state["backgroundColor"+propositition[2]]}}
                     titleStyle={{fontSize: 20, padding: 20}} 
