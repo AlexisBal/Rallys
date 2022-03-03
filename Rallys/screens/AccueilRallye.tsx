@@ -17,7 +17,6 @@ export class AccueilRallye extends React.Component<Props> {
   
   render() {
     const rallye = this.props.route.params.rallye;
-    console.log(rallye)
     return (
       <View style={styles.main_container}>
         <ScrollView>
@@ -33,7 +32,6 @@ export class AccueilRallye extends React.Component<Props> {
                 key={rallye.title}
                 style={{width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
                 source={{uri: "https://ipfs.io/ipfs/"+rallye.photo1}}
-                onLoadStart={() => this.setState({isLoading: true})}
                 onLoadEnd={() => this.setState({isLoading: false})}
               />
             </View>

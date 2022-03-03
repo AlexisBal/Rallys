@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View } from '../components/Themed';
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView, Image } from 'react-native'
 import { RootStackParamList } from '../types';
 import { StackScreenProps } from '@react-navigation/stack';
 import Constants from 'expo-constants';

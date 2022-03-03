@@ -178,7 +178,7 @@ export class RallyeQuestion extends React.Component<Props> {
                   key={rallye.rallye[question].photo}
                   style={{ paddingLeft: 20, paddingRight: 20, width: 330, height: 190, alignSelf: 'center', display: this.state.displayImage, resizeMode: "contain"}}
                   source={{uri: "https://ipfs.io/ipfs/"+rallye.rallye[question].photo}}
-                  onLoadEnd={() => this.setState({isLoading:false})}
+                  onLoadEnd={() => this.setState({isLoading: false})}
                 />
                 { this.state.isLoading ?
                   <View style={styles.loading_container}>
