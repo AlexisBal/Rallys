@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 
 import { Accueil } from '../screens/Accueil';
-import { RallyeIndisponible } from '../screens/RallyeIndisponible';
+import { Scanner } from '../screens/Scanner';
 import { AccueilRallye } from '../screens/AccueilRallye';
 import { Regles } from '../screens/Regles';
 import { RallyeQuestionInit } from '../screens/RallyeQuestionInit';
@@ -35,7 +35,7 @@ function MainStackScreen() {
   return (
     <MainStack.Navigator>
       <MainStack.Screen name="Accueil" component={Accueil} options={{ headerShown: false }}/>
-      <MainStack.Screen name="RallyeIndisponible" component={RallyeIndisponible} options={{ title: 'Rallyes indisponibles', headerShown: false }}/>
+      <MainStack.Screen name="Scanner" component={Scanner} options={{ title: 'QR Code', headerShown: false }}/>
       <MainStack.Screen name="AccueilRallye" component={AccueilRallye} options={{ title: 'Accueil Rallye', headerShown: false  }}/>
       <MainStack.Screen name="Regles" component={Regles} options={{ title: 'Règles', headerShown: false  }}/>
       <MainStack.Screen name="RallyeQuestionInit" component={RallyeQuestionInit} options={{ title: 'Question 1', gestureEnabled:false, headerLeft: () => null }}/>

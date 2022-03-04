@@ -13,21 +13,10 @@ type Props = StackScreenProps<RootStackParamList, 'Accueil'>;
 
 export class Accueil extends React.Component<Props> {
   constructor(props: Props) {
-    super(props),
-    this.state = {
-      rallye: {},
-      isLoading: false
-    }
-  }
-
-  componentDidMount() {
-    getRallyeData().then(response => {
-      this.setState({ rallye: response })
-    })
+    super(props)
   }
 
   render() {
-    var rallye = this.state.rallye;
     return (
       <View style={styles.main_container}>
         <Image
@@ -41,7 +30,7 @@ export class Accueil extends React.Component<Props> {
               title="Commencer"
               titleStyle={styles.textInput}
               containerStyle={styles.textInputContainer}
-              onPress={() => {this.props.navigation.navigate("AccueilRallye", {rallye})}}
+              onPress={() => {this.props.navigation.navigate("Scanner")}}
             />
         </View>
 

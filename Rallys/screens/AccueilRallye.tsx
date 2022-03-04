@@ -1,7 +1,6 @@
 import React from 'react'
 import { Text, View } from '../components/Themed';
 import { StyleSheet, Image, ScrollView, Button, ActivityIndicator } from 'react-native';
-import { getRallyeData } from '../Helpers/RallyesData';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import Constants from 'expo-constants';
@@ -12,15 +11,8 @@ export class AccueilRallye extends React.Component<Props> {
   constructor(props: Props) {
     super(props),
     this.state = {
-      rallye: {},
       isLoading: true
     }
-  }
-  
-  _loadRallye() {
-    getRallyeData().then(data => {
-      this.setState({ rallye: data.results })
-    })
   }
   
   render() {
@@ -40,7 +32,6 @@ export class AccueilRallye extends React.Component<Props> {
                 key={rallye.title}
                 style={{width: 330, height: 190, alignSelf: 'center', display: this.displayImage, resizeMode: "contain"}}
                 source={{uri: "https://ipfs.io/ipfs/"+rallye.photo1}}
-                onLoadStart={() => this.setState({isLoading: true})}
                 onLoadEnd={() => this.setState({isLoading: false})}
               />
             </View>
