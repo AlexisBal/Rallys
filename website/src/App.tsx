@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import {
   Routes,
   Route,
@@ -14,6 +14,7 @@ import PrivateRoute from "./Tracking/PrivateRoute";
 import Home from './Vues/Public/Home';
 import Login from './Vues/Public/Login';
 import ProfileHome from './Vues/Private/ProfileHome';
+import CreateRallye from './Vues/Private/CreateRallye';
 
 import './App.css';
 
@@ -31,6 +32,14 @@ export default function App() {
           element={
             <PrivateRoute>
               <ProfileHome />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/new-rallye"
+          element={
+            <PrivateRoute>
+              <CreateRallye />
             </PrivateRoute>
           }
         />
@@ -84,6 +93,9 @@ function PrivateHeader() {
         <Nav activeKey={location.pathname} className="mr-auto ">
           <Nav.Item>
             <Nav.Link href="/myaccount">Accueil</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/new-rallye">Nouveau Rallye</Nav.Link>
           </Nav.Item>
           <NavDropdown  title="Mon compte" id="basic-nav-dropdown">
             <NavDropdown.Item onClick={logOut}>Déconnexion</NavDropdown.Item>

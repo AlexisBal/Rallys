@@ -1,9 +1,9 @@
 
-html, body {
+body,html {
+  background: linear-gradient(#054AAD, #366ebd);
   height: 100%;
   width: 100%;
   margin: 0;
-  background: linear-gradient(#100f27, #1e134b);
 }
 
 h1 {
@@ -24,6 +24,11 @@ label {
 
 .safe-container {
   padding: 40px;
+  height: 100%;
+}
+
+form {
+  margin-top: 40px;
 }
 
 .error {
@@ -33,13 +38,13 @@ label {
 
 .PublicNavBar {
   height:fit-content;
-  background-color: white;
+  background: white;
   padding: 1vw;
 }
 
 .PrivateNavBar {
   height:fit-content;
-  background-color: white;
+  background: white;
 }
 
 .form-signin {

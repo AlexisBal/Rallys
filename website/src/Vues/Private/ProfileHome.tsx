@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { create } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
 
 import { useAuth } from "../../Tracking/Auth";
-import React from 'react';
+
 
 
 function ProfileHome () {

@@ -103,7 +103,7 @@ export class ReponseScreen extends React.Component<Props> {
     score = score + point;
 
     // Avancée du rallye 
-    const avancee = 0.0625 * id_question;
+    const avancee = (1/rallye.rallye.nombre_questions) * id_question;
 
     // Affichage de la reponse
     return (
