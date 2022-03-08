@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 import { create } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
 
@@ -34,49 +34,82 @@ function CreateRallye () {
         jsonBis[key] = event.target.value;
         setJson(jsonBis);
     }
+
+    const [validated, setValidated] = useState(false);
+
+    const handleSubmit = (event: { currentTarget: any; preventDefault: () => void; stopPropagation: () => void; }) => {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        }
+        setValidated(true);
+    };
     
     return (
-        <div className='safe-container'>
+        <div className='safe-container-2'>
             <h1>Créer un nouveau rallye</h1>
             <div className="form">
-                <Form>
+                <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="titre">
                         <Form.Label>Titre</Form.Label>
-                        <Form.Control type="text" placeholder="Titre du rallye" onChange={e => jsonHandle(e, "titre")}/>
+                        <Form.Control type="text" placeholder="Titre du rallye" onChange={e => jsonHandle(e, "titre")} required/>
+                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="region">
                         <Form.Label>Region</Form.Label>
-                        <Form.Control type="text" placeholder="Region du rallye" onChange={e => jsonHandle(e, "region")}/>
+                        <Form.Select aria-label="Default select example" onChange={e => jsonHandle(e, "region")} required>
+                            <option disabled>Region du rallye</option>
+                            <option value="Auvergne-Rhône-Alpes">Auvergne-Rhône-Alpes</option>
+                            <option value="Bourgogne-Franche-Comté">Bourgogne-Franche-Comté</option>
+                            <option value="Bretagne">Bretagne</option>
+                            <option value="Centre-Val de Loire">Centre-Val de Loire</option>
+                            <option value="Corse">Corse</option>
+                            <option value="Grand Est<">Grand Est</option>
+                            <option value="Hauts-de-France">Hauts-de-France</option>
+                            <option value="Ile-de-France">Ile-de-France</option>
+                            <option value="Normandie">Normandie</option>
+                            <option value="Nouvelle-Aquitaine">Nouvelle-Aquitaine</option>
+                            <option value="Occitanie">Occitanie</option>
+                            <option value="Pays de la Loire">Pays de la Loire</option>
+                            <option value="Provence-Alpes-Côte d’Azur">Provence-Alpes-Côte d’Azur</option>
+                        </Form.Select>
+                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="departement">
-                        <Form.Label>Departement</Form.Label>
-                        <Form.Control type="text" placeholder="Departement du rallye" onChange={e => jsonHandle(e, "departement")}/>
+                    <Form.Group className="mb-3" controlId="cp">
+                        <Form.Label>Code Postal</Form.Label>
+                        <Form.Control type="text" maxLength={5} placeholder="Code postal du rallye" onChange={e => jsonHandle(e, "cp")} required/>
+                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="ville">
                         <Form.Label>Ville</Form.Label>
-                        <Form.Control type="text" placeholder="Ville du rallye" onChange={e => jsonHandle(e, "ville")}/>
+                        <Form.Control type="text" placeholder="Ville du rallye" onChange={e => jsonHandle(e, "ville")} required/>
+                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="duree">
                         <Form.Label>Durée</Form.Label>
-                        <Form.Control type="text" placeholder="Durée du rallye" onChange={e => jsonHandle(e, "duree")}/>
+                        <Form.Control type="text" placeholder="Durée du rallye" onChange={e => jsonHandle(e, "duree")} required/>
+                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="description">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" rows={4} placeholder="Description du rallye" onChange={e => jsonHandle(e, "description")}/>
+                        <Form.Control as="textarea" rows={4} placeholder="Description du rallye" onChange={e => jsonHandle(e, "description")} required/>
+                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group controlId="photo1" className="mb-3">
+                    <Form.Group controlId="photo1">
                         <Form.Label>Photo</Form.Label>
-                        <Form.Control type="file" name="file" onChange={e => addFile(e, "photo1")}/>
+                        <Form.Control type="file" name="file" onChange={e => addFile(e, "photo1")} required/>
+                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Button variant="primary">
-                        Submit
+                    <Button variant="light" className="mt-50" type="submit">
+                        Enregistrer et passer à l'étape suivante
                     </Button>
                 </Form>
             </div>

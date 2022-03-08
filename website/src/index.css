@@ -1,11 +1,3 @@
-
-body,html {
-  background: linear-gradient(#054AAD, #366ebd);
-  height: 100%;
-  width: 100%;
-  margin: 0;
-}
-
 h1 {
   padding-top: 40px;
   color: white;
@@ -15,6 +7,9 @@ label {
   color: white;
 }
 
+html, body, #root {
+  height: 100%
+}
 
 .alert {
   margin-top: 60px;
@@ -22,9 +17,17 @@ label {
   width: auto;
 }
 
-.safe-container {
+.safe-container-1 {
   padding: 40px;
+  background: linear-gradient(#054AAD, #366ebd);
+  background-repeat: no-repeat; 
   height: 100%;
+}
+
+.safe-container-2 {
+  padding: 40px;
+  background: linear-gradient(#054AAD, #366ebd);
+  background-repeat: no-repeat; 
 }
 
 form {
@@ -328,6 +331,9 @@ form {
   margin-top: 10px;
 }
 
+.justifyCenter  {
+  justify-content: center;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

@@ -65,19 +65,8 @@ function ProfileHome () {
   }
 
   return (
-    <div className='safe-container'>
+    <div className='safe-container-1'>
       <h1>Hey {auth.keybis}</h1>
-      <div className="mt-50">
-        <Form>
-          <Form.Group controlId="formFile" className="mb-3">
-            <Form.Label>Choisir un fichier</Form.Label>
-            <Form.Control type="file" name="file" onChange={addFile} />
-          </Form.Group>
-        </Form>
-        <Button variant="primary" onClick={handleSubmission}>Upload</Button>{' '}
-        <Button variant="primary" onClick={handleGetFile}>Fetch</Button>{' '}
-        <Button  variant="primary" onClick={handleUnpinFile}>Unpin</Button>
-      </div>
     </div>
   );
 }
