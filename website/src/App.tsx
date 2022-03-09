@@ -14,7 +14,8 @@ import PrivateRoute from "./Tracking/PrivateRoute";
 import Home from './Vues/Public/Home';
 import Login from './Vues/Public/Login';
 import ProfileHome from './Vues/Private/ProfileHome';
-import CreateRallye from './Vues/Private/CreateRallye';
+import CreateRallye from './Vues/Private/CreateRallyeStep1';
+import CreateRallyeStep2 from './Vues/Private/CreateRallyeStep2';
 
 import './App.css';
 
@@ -40,6 +41,14 @@ export default function App() {
           element={
             <PrivateRoute>
               <CreateRallye />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/new-rallye-step2"
+          element={
+            <PrivateRoute>
+              <CreateRallyeStep2 />
             </PrivateRoute>
           }
         />

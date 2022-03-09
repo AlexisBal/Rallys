@@ -11,7 +11,7 @@ export default function Informations() {
   };
 
   const getRallye = () => {
-    var rallyeCreation = sessionStorage.getItem('rallye-creation');
+    var rallyeCreation = localStorage.getItem('rallye_creation');
     if (rallyeCreation) {
       const userRallyeCreation = JSON.parse(rallyeCreation);
       return userRallyeCreation
@@ -28,7 +28,7 @@ export default function Informations() {
   };
 
   const saveLocalInformations = (userRallye: any) => {
-    localStorage.setItem('rallye-creation', JSON.stringify(userRallye));
+    localStorage.setItem('rallye_creation', JSON.stringify(userRallye));
     setRallye(userRallye)
   };
 

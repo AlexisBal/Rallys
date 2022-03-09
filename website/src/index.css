@@ -10,7 +10,12 @@ label {
 html, body, #root, #root > div{
   background: linear-gradient(#054AAD, #366ebd);
   background-repeat: no-repeat; 
-  height: 100%;
+}
+
+html, body {
+  height:  100%;
+  background: linear-gradient(#054AAD, #366ebd);
+  background-repeat: no-repeat; 
 }
 
 .alert {
@@ -20,12 +25,13 @@ html, body, #root, #root > div{
 }
 
 .safe-container-1 {
+  height:  100%;
   padding: 40px;
-  height:fit-content;
 }
 
 .safe-container-2 {
   padding: 40px;
+  height: 100%;
 }
 
 form {

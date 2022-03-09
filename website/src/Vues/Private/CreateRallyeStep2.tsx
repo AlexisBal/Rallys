@@ -4,10 +4,16 @@ import { create } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
 
 import { useAuth } from "../../Tracking/Auth";
+import Informations from "../../Tracking/Informations";
 
-function CreateRallye () {
+function CreateRallyeStep2 () {
     let auth = useAuth();
+    const {setLocalInformations, rallye } = Informations();
     const [json, setJson] = useState({});
+
+    if (rallye) {
+        console.log(rallye)
+    }
 
     // Publish on IPFS and save the hash in JSON
     const addFile = async (event: any, key: string): Promise<void> => {
@@ -47,15 +53,14 @@ function CreateRallye () {
                 statut: "1",
                 rallye: json
             }
-            const myJSON = JSON.stringify(jsonBis);
-            localStorage.setItem("rallye-creation", myJSON);
+            setLocalInformations(jsonBis)
         }
         setValidated(true);
     };
     
     return (
         <div className='safe-container-2'>
-            <h1>Créer un nouveau rallye</h1>
+            <h1>Créer un nouveau rallye 2</h1>
             <div className="form">
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="titre">
@@ -125,4 +130,4 @@ function CreateRallye () {
       );
 }
 
-export default CreateRallye;
+export default CreateRallyeStep2;
