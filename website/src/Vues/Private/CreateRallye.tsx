@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Row, Stack } from 'react-bootstrap';
 import { create } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
 
@@ -42,6 +42,13 @@ function CreateRallye () {
         if (form.checkValidity() === false) {
         event.preventDefault();
         event.stopPropagation();
+        } else {
+            const jsonBis = {
+                statut: "1",
+                rallye: json
+            }
+            const myJSON = JSON.stringify(jsonBis);
+            localStorage.setItem("rallye-creation", myJSON);
         }
         setValidated(true);
     };
@@ -107,10 +114,11 @@ function CreateRallye () {
                         <Form.Control type="file" name="file" onChange={e => addFile(e, "photo1")} required/>
                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
-
-                    <Button variant="light" className="mt-50" type="submit">
-                        Enregistrer et passer à l'étape suivante
-                    </Button>
+                    <Stack className="col-md-3 mx-auto mt-50">
+                        <Button variant="light" type="submit" style={{borderRadius: 60}}>
+                            Etape suivante
+                        </Button>
+                    </Stack>
                 </Form>
             </div>
         </div>

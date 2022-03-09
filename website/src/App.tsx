@@ -36,7 +36,7 @@ export default function App() {
           }
         />
         <Route
-          path="/new-rallye"
+          path="/new-rallye-step1"
           element={
             <PrivateRoute>
               <CreateRallye />
@@ -95,7 +95,7 @@ function PrivateHeader() {
             <Nav.Link href="/myaccount">Accueil</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link href="/new-rallye">Nouveau Rallye</Nav.Link>
+            <Nav.Link href="/new-rallye-step1">Nouveau Rallye</Nav.Link>
           </Nav.Item>
           <NavDropdown  title="Mon compte" id="basic-nav-dropdown">
             <NavDropdown.Item onClick={logOut}>Déconnexion</NavDropdown.Item>
