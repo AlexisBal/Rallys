@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Stack } from 'react-bootstrap';
 import { create } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
@@ -9,11 +9,10 @@ import Informations from "../../Tracking/Informations";
 function CreateRallyeStep2 () {
     let auth = useAuth();
     const {setLocalInformations, rallye } = Informations();
-    const [json, setJson] = useState({});
-
-    if (rallye) {
-        console.log(rallye)
-    }
+    const [json, setJson] = useState(rallye);
+    const [nbQuestions, setNbQuestions] = useState(2);
+    const [nbReponses, setNbReponses] = useState(2);
+    const [reponses, setReponses] = useState(Array(1, 2));
 
     // Publish on IPFS and save the hash in JSON
     const addFile = async (event: any, key: string): Promise<void> => {
@@ -30,7 +29,7 @@ function CreateRallyeStep2 () {
         })
         const added = await node.add(event.target.files[0]);
         var jsonBis = json;
-        jsonBis[key] = added.path;
+        jsonBis.rallye.rallye[key] = added.path;
         setJson(jsonBis);
     }; 
 
@@ -39,6 +38,16 @@ function CreateRallyeStep2 () {
         var jsonBis = json;
         jsonBis[key] = event.target.value;
         setJson(jsonBis);
+    }
+
+    const nbReponsesHandle = (nb: number) => {
+        setReponses([]);
+        let listReponses = Array();
+        var x: number; 
+        for (x=1; x<=nb; x++) {
+            listReponses.push(x);
+        }
+        setReponses(listReponses);
     }
 
     const [validated, setValidated] = useState(false);
@@ -60,65 +69,53 @@ function CreateRallyeStep2 () {
     
     return (
         <div className='safe-container-2'>
-            <h1>Créer un nouveau rallye 2</h1>
+            <h1>Créer un nouveau rallye {'>'} Etape 2</h1>
             <div className="form">
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3" controlId="titre">
-                        <Form.Label>Titre</Form.Label>
-                        <Form.Control type="text" placeholder="Titre du rallye" onChange={e => jsonHandle(e, "titre")} required/>
+                    <Form.Group className="mb-3" controlId="enonce">
+                        <Form.Label>Énoncé</Form.Label>
+                        <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" onChange={e => jsonHandle(e, "enonce")} required/>
                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="region">
-                        <Form.Label>Region</Form.Label>
-                        <Form.Select aria-label="Default select example" onChange={e => jsonHandle(e, "region")} required>
-                            <option disabled>Region du rallye</option>
-                            <option value="Auvergne-Rhône-Alpes">Auvergne-Rhône-Alpes</option>
-                            <option value="Bourgogne-Franche-Comté">Bourgogne-Franche-Comté</option>
-                            <option value="Bretagne">Bretagne</option>
-                            <option value="Centre-Val de Loire">Centre-Val de Loire</option>
-                            <option value="Corse">Corse</option>
-                            <option value="Grand Est<">Grand Est</option>
-                            <option value="Hauts-de-France">Hauts-de-France</option>
-                            <option value="Ile-de-France">Ile-de-France</option>
-                            <option value="Normandie">Normandie</option>
-                            <option value="Nouvelle-Aquitaine">Nouvelle-Aquitaine</option>
-                            <option value="Occitanie">Occitanie</option>
-                            <option value="Pays de la Loire">Pays de la Loire</option>
-                            <option value="Provence-Alpes-Côte d’Azur">Provence-Alpes-Côte d’Azur</option>
+                    <Form.Group className="mb-3" controlId="question">
+                        <Form.Label>Question</Form.Label>
+                        <Form.Control as="textarea" rows={4} placeholder="Question" onChange={e => jsonHandle(e, "enonce")} required/>
+                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="reponses">
+                        <Form.Label>Nombre Réponses</Form.Label>
+                        <Form.Select aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value))} required>
+                            <option disabled>Nombre de réponses</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
                         </Form.Select>
                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="cp">
-                        <Form.Label>Code Postal</Form.Label>
-                        <Form.Control type="text" maxLength={5} placeholder="Code postal du rallye" onChange={e => jsonHandle(e, "cp")} required/>
-                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="ville">
-                        <Form.Label>Ville</Form.Label>
-                        <Form.Control type="text" placeholder="Ville du rallye" onChange={e => jsonHandle(e, "ville")} required/>
-                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="duree">
-                        <Form.Label>Durée</Form.Label>
-                        <Form.Control type="text" placeholder="Durée du rallye" onChange={e => jsonHandle(e, "duree")} required/>
-                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="description">
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" rows={4} placeholder="Description du rallye" onChange={e => jsonHandle(e, "description")} required/>
-                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
-                    </Form.Group>
+                    <div>
+                        {reponses.map((rep) => {
+                            return (
+                                <Form.Group className="mb-3" controlId="reponse" key={rep}>
+                                    <Form.Label>Réponse {rep}</Form.Label>
+                                    <Form.Control type="text" placeholder="Réponse {{rep}}" onChange={e => jsonHandle(e, "ville")} required/>
+                                    <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                                </Form.Group>
+                            )
+                        })}
+                    </div>
 
                     <Form.Group controlId="photo1">
                         <Form.Label>Photo</Form.Label>
-                        <Form.Control type="file" name="file" onChange={e => addFile(e, "photo1")} required/>
+                        <Form.Control type="file" name="file" onChange={e => addFile(e, "photo1")}/>
                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
+
                     <Stack className="col-md-3 mx-auto mt-50">
                         <Button variant="light" type="submit" style={{borderRadius: 60}}>
                             Etape suivante

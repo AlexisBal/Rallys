@@ -67,7 +67,7 @@ function CreateRallye () {
     
     return (
         <div className='safe-container-2'>
-            <h1>Créer un nouveau rallye</h1>
+            <h1>Créer un nouveau rallye {'>'} Etape 1</h1>
             <div className="form">
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="titre">
