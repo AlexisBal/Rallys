@@ -10,9 +10,8 @@ function CreateRallyeStep2 () {
     let auth = useAuth();
     const {setLocalInformations, rallye } = Informations();
     const [json, setJson] = useState(rallye);
-    const [nbQuestions, setNbQuestions] = useState(2);
-    const [nbReponses, setNbReponses] = useState(2);
     const [reponses, setReponses] = useState(Array(1, 2));
+    const [questions, setQuestions] = useState(Array(1, 2));
 
     // Publish on IPFS and save the hash in JSON
     const addFile = async (event: any, key: string): Promise<void> => {
@@ -50,6 +49,16 @@ function CreateRallyeStep2 () {
         setReponses(listReponses);
     }
 
+    const nbQuestionsHandle = (nb: number) => {
+        setQuestions([]);
+        let listQuestions = Array();
+        var x: number; 
+        for (x=1; x<=nb; x++) {
+            listQuestions.push(x);
+        }
+        setQuestions(listQuestions);
+    }
+
     const [validated, setValidated] = useState(false);
 
     const handleSubmit = (event: { currentTarget: any; preventDefault: () => void; stopPropagation: () => void; }) => {
@@ -72,49 +81,94 @@ function CreateRallyeStep2 () {
             <h1>Créer un nouveau rallye {'>'} Etape 2</h1>
             <div className="form">
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3" controlId="enonce">
-                        <Form.Label>Énoncé</Form.Label>
-                        <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" onChange={e => jsonHandle(e, "enonce")} required/>
-                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="question">
-                        <Form.Label>Question</Form.Label>
-                        <Form.Control as="textarea" rows={4} placeholder="Question" onChange={e => jsonHandle(e, "enonce")} required/>
-                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="reponses">
-                        <Form.Label>Nombre Réponses</Form.Label>
-                        <Form.Select aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value))} required>
-                            <option disabled>Nombre de réponses</option>
+                    <Form.Group className="mb-3" controlId="questions">
+                        <Form.Label>Nombre Questions</Form.Label>
+                        <Form.Select aria-label="Default select example" onChange={e => nbQuestionsHandle(parseInt(e.target.value))} required>
+                            <option disabled>Nombre de questions</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="6">6</option>
                             <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
                         </Form.Select>
                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                     </Form.Group>
 
-                    <div>
-                        {reponses.map((rep) => {
+                    <div>{
+                        questions.map((question) => {
                             return (
-                                <Form.Group className="mb-3" controlId="reponse" key={rep}>
-                                    <Form.Label>Réponse {rep}</Form.Label>
-                                    <Form.Control type="text" placeholder="Réponse {{rep}}" onChange={e => jsonHandle(e, "ville")} required/>
-                                    <Form.Control.Feedback>Ok !</Form.Control.Feedback>
-                                </Form.Group>
+                                <><h2>Question {question}</h2><div>
+                                    <Form.Group className="mb-3" controlId="enonce">
+                                        <Form.Label>Énoncé</Form.Label>
+                                        <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" onChange={e => jsonHandle(e, "enonce")} required />
+                                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="question">
+                                        <Form.Label>Question</Form.Label>
+                                        <Form.Control as="textarea" rows={4} placeholder="Question" onChange={e => jsonHandle(e, "enonce")} required />
+                                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="reponses">
+                                        <Form.Label>Nombre Réponses</Form.Label>
+                                        <Form.Select aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value))} required>
+                                            <option disabled>Nombre de réponses</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </Form.Select>
+                                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    <div>
+                                        {reponses.map((rep) => {
+                                            return (
+                                                <Form.Group className="mb-3" controlId="reponse" key={rep}>
+                                                    <Form.Label>Réponse {rep}</Form.Label>
+                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonHandle(e, "reponse" + rep)} required />
+                                                    <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                                                </Form.Group>
+                                            );
+                                        })}
+                                    </div>
+
+                                    <Form.Group controlId="photo1">
+                                        <Form.Label>Photo</Form.Label>
+                                        <Form.Control type="file" name="file" onChange={e => addFile(e, "photo1")} />
+                                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                                    </Form.Group>
+                                </div></>
                             )
                         })}
                     </div>
-
-                    <Form.Group controlId="photo1">
-                        <Form.Label>Photo</Form.Label>
-                        <Form.Control type="file" name="file" onChange={e => addFile(e, "photo1")}/>
-                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
-                    </Form.Group>
 
                     <Stack className="col-md-3 mx-auto mt-50">
                         <Button variant="light" type="submit" style={{borderRadius: 60}}>
