@@ -10,7 +10,10 @@ function CreateRallyeStep2 () {
     let auth = useAuth();
     const {setLocalInformations, rallye } = Informations();
     const [json, setJson] = useState(rallye);
-    const [reponses, setReponses] = useState(Array(1, 2));
+    const [reponses, setReponses] = useState({
+        1: Array(1, 2),
+        2: Array(1, 2)
+    });
     const [questions, setQuestions] = useState(Array(1, 2));
 
     // Publish on IPFS and save the hash in JSON
@@ -39,24 +42,31 @@ function CreateRallyeStep2 () {
         setJson(jsonBis);
     }
 
-    const nbReponsesHandle = (nb: number) => {
-        setReponses([]);
-        let listReponses = Array();
+    const nbReponsesHandle = (nb: number, id:number) => {
+        var reponsesBis = reponses;
         var x: number; 
+        reponsesBis[id] = Array();
         for (x=1; x<=nb; x++) {
-            listReponses.push(x);
+            reponsesBis[id].push(x);
         }
-        setReponses(listReponses);
+        setReponses(reponsesBis);
+        console.log(reponses[id]);
     }
 
     const nbQuestionsHandle = (nb: number) => {
         setQuestions([]);
         let listQuestions = Array();
+        var reponsesBis = reponses;
         var x: number; 
         for (x=1; x<=nb; x++) {
             listQuestions.push(x);
+            if (!reponsesBis[x]) {
+                reponsesBis[x] = [1, 2];
+            }
         }
         setQuestions(listQuestions);
+        setReponses(reponsesBis);
+        console.log(reponses)
     }
 
     const [validated, setValidated] = useState(false);
@@ -120,8 +130,14 @@ function CreateRallyeStep2 () {
 
                     <div>{
                         questions.map((question) => {
+                            const listReponses = Array();
+
+                            for (var x in reponses[question]) {
+                                listReponses.push(reponses[question][x])
+                            }
                             return (
-                                <><h2>Question {question}</h2><div>
+                                <div key={question}>
+                                    <h2>Question {question}</h2>
                                     <Form.Group className="mb-3" controlId="enonce">
                                         <Form.Label>Énoncé</Form.Label>
                                         <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" onChange={e => jsonHandle(e, "enonce")} required />
@@ -136,7 +152,7 @@ function CreateRallyeStep2 () {
 
                                     <Form.Group className="mb-3" controlId="reponses">
                                         <Form.Label>Nombre Réponses</Form.Label>
-                                        <Form.Select aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value))} required>
+                                        <Form.Select aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value), question)} required>
                                             <option disabled>Nombre de réponses</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -149,11 +165,12 @@ function CreateRallyeStep2 () {
                                     </Form.Group>
 
                                     <div>
-                                        {reponses.map((rep) => {
+                                        {
+                                        listReponses.map((value) => {
                                             return (
-                                                <Form.Group className="mb-3" controlId="reponse" key={rep}>
-                                                    <Form.Label>Réponse {rep}</Form.Label>
-                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonHandle(e, "reponse" + rep)} required />
+                                                <Form.Group className="mb-3" controlId="reponse" key={value}>
+                                                    <Form.Label>Réponse {value}</Form.Label>
+                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonHandle(e, "reponse" + value)} required />
                                                     <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                                 </Form.Group>
                                             );
@@ -165,7 +182,7 @@ function CreateRallyeStep2 () {
                                         <Form.Control type="file" name="file" onChange={e => addFile(e, "photo1")} />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
-                                </div></>
+                                </div>
                             )
                         })}
                     </div>
