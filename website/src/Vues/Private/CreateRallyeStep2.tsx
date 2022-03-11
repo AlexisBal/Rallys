@@ -10,13 +10,11 @@ function CreateRallyeStep2 () {
     let auth = useAuth();
     const {setLocalInformations, rallye } = Informations();
     const [json, setJson] = useState(rallye);
-    const [reponses, setReponses] = useState({
-        1: Array(1, 2),
-        2: Array(1, 2)
-    });
-    const [questions, setQuestions] = useState(Array(1, 2));
+    const [questions, setQuestions] = useState(new Array(1, 2));
+    const list1 = new Array(1, 2);
+    const [reponses, setReponses] = useState(new Array(list1, list1));
 
-    // Publish on IPFS and save the hash in JSON
+    // Publish on IPFS and save the hash in JSON 
     const addFile = async (event: any, key: string): Promise<void> => {
         const projectId = process.env.REACT_APP_PROJECT_ID;
         const projectSecret = process.env.REACT_APP_PROJECT_SECRET;
@@ -43,30 +41,31 @@ function CreateRallyeStep2 () {
     }
 
     const nbReponsesHandle = (nb: number, id:number) => {
-        var reponsesBis = reponses;
+        let reponsesBis = new Array();
+        let listReponses = new Array();
         var x: number; 
-        reponsesBis[id] = Array();
+        reponses.forEach(value => {
+            reponsesBis.push(value);
+        });
         for (x=1; x<=nb; x++) {
-            reponsesBis[id].push(x);
+            listReponses.push(x);
         }
+        reponsesBis[id-1] = listReponses; 
         setReponses(reponsesBis);
-        console.log(reponses[id]);
     }
 
     const nbQuestionsHandle = (nb: number) => {
-        setQuestions([]);
-        let listQuestions = Array();
+        let listQuestions = new Array();
         var reponsesBis = reponses;
         var x: number; 
         for (x=1; x<=nb; x++) {
             listQuestions.push(x);
-            if (!reponsesBis[x]) {
-                reponsesBis[x] = [1, 2];
+            if (!reponses[x-1]) {
+                reponsesBis[x-1] = new Array(1,2);
             }
         }
         setQuestions(listQuestions);
         setReponses(reponsesBis);
-        console.log(reponses)
     }
 
     const [validated, setValidated] = useState(false);
@@ -130,11 +129,6 @@ function CreateRallyeStep2 () {
 
                     <div>{
                         questions.map((question) => {
-                            const listReponses = Array();
-
-                            for (var x in reponses[question]) {
-                                listReponses.push(reponses[question][x])
-                            }
                             return (
                                 <div key={question}>
                                     <h2>Question {question}</h2>
@@ -150,9 +144,9 @@ function CreateRallyeStep2 () {
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="reponses">
+                                    <Form.Group className="mb-3" controlId="reponses" key={question}>
                                         <Form.Label>Nombre Réponses</Form.Label>
-                                        <Form.Select aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value), question)} required>
+                                        <Form.Select key={question} aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value), question)} required>
                                             <option disabled>Nombre de réponses</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -166,11 +160,11 @@ function CreateRallyeStep2 () {
 
                                     <div>
                                         {
-                                        listReponses.map((value) => {
+                                        reponses[question-1].map((reponse) => {
                                             return (
-                                                <Form.Group className="mb-3" controlId="reponse" key={value}>
-                                                    <Form.Label>Réponse {value}</Form.Label>
-                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonHandle(e, "reponse" + value)} required />
+                                                <Form.Group className="mb-3" controlId="reponse" key={reponse}>
+                                                    <Form.Label>Réponse {reponse}</Form.Label>
+                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonHandle(e, "reponse" + reponse)} required />
                                                     <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                                 </Form.Group>
                                             );
