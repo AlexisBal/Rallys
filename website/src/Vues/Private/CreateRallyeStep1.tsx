@@ -8,11 +8,18 @@ import { useAuth } from "../../Tracking/Auth";
 import Informations from "../../Tracking/Informations";
 
 function CreateRallye () {
+    // Objet Authentification (Public Key)
     let auth = useAuth();
+    // Objet Navigation (redirection)
     let navigate = useNavigate();
+    // Sauvegarde du rallye (non-volatile)
     const {setLocalInformations, rallye } = Informations();
+    // Sauvegarde du rallye (volatile)
     const [json, setJson] = useState({});
+    // Vérification du formulaire
+    const [validated, setValidated] = useState(false);
 
+    // Redirection vers l'étape 2 s'il y a un rallye en cours de création
     useEffect(() => {
         if (rallye) {
             if (rallye.statut == 1) {
@@ -22,7 +29,7 @@ function CreateRallye () {
         }
     });
 
-    // Publish on IPFS and save the hash in JSON
+    // Publication sur IPFS et sauvegarde du hash
     const addFile = async (event: any, key: string): Promise<void> => {
         const projectId = process.env.REACT_APP_PROJECT_ID;
         const projectSecret = process.env.REACT_APP_PROJECT_SECRET;
@@ -41,15 +48,14 @@ function CreateRallye () {
         setJson(jsonBis);
     }; 
 
-    // Save data in JSON
+    // Sauvegarde sous la forme de JSON
     const jsonHandle = (event: any, key: string) => {
         var jsonBis = json;
         jsonBis[key] = event.target.value;
         setJson(jsonBis);
     }
 
-    const [validated, setValidated] = useState(false);
-
+    // Soumission du formulaire
     const handleSubmit = (event: { currentTarget: any; preventDefault: () => void; stopPropagation: () => void; }) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -65,6 +71,7 @@ function CreateRallye () {
         setValidated(true);
     };
     
+    // Affichage
     return (
         <div className='safe-container-2'>
             <h1>Créer un nouveau rallye {'>'} Etape 1</h1>

@@ -2,19 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Stack } from 'react-bootstrap';
 import { create } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from "../../Tracking/Auth";
 import Informations from "../../Tracking/Informations";
 
+
 function CreateRallyeStep2 () {
+    // Objet Authentification (Public Key)
     let auth = useAuth();
+    // Objet Navigation (redirection)
+    let navigate = useNavigate();
+    // Sauvegarde du rallye (non-volatile)
     const {setLocalInformations, rallye } = Informations();
+    // Sauvegarde du rallye (volatile)
     const [json, setJson] = useState(rallye);
+    // Nombre de questions - Affichage dynamique
     const [questions, setQuestions] = useState(new Array(1, 2));
+    // Nombre de réponses par question - Affichage dynamique
     const list1 = new Array(1, 2);
     const [reponses, setReponses] = useState(new Array(list1, list1));
+    // Vérification du formulaire
+    const [validated, setValidated] = useState(false);
 
-    // Publish on IPFS and save the hash in JSON 
+    // Publication sur IPFS et sauvegarde du hash
     const addFile = async (event: any, key: string): Promise<void> => {
         const projectId = process.env.REACT_APP_PROJECT_ID;
         const projectSecret = process.env.REACT_APP_PROJECT_SECRET;
@@ -33,13 +44,14 @@ function CreateRallyeStep2 () {
         setJson(jsonBis);
     }; 
 
-    // Save data in JSON
+    // Sauvegarde sous la forme de JSON
     const jsonHandle = (event: any, key: string) => {
         var jsonBis = json;
         jsonBis[key] = event.target.value;
         setJson(jsonBis);
     }
 
+    // Nombre de réponses par question - Affichage dynamique
     const nbReponsesHandle = (nb: number, id:number) => {
         let reponsesBis = new Array();
         let listReponses = new Array();
@@ -54,6 +66,7 @@ function CreateRallyeStep2 () {
         setReponses(reponsesBis);
     }
 
+    // Nombre de questions - Affichage dynamique
     const nbQuestionsHandle = (nb: number) => {
         let listQuestions = new Array();
         var reponsesBis = reponses;
@@ -68,8 +81,7 @@ function CreateRallyeStep2 () {
         setReponses(reponsesBis);
     }
 
-    const [validated, setValidated] = useState(false);
-
+    // Soumission du formulaire
     const handleSubmit = (event: { currentTarget: any; preventDefault: () => void; stopPropagation: () => void; }) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -85,6 +97,7 @@ function CreateRallyeStep2 () {
         setValidated(true);
     };
     
+    // Affichage
     return (
         <div className='safe-container-2'>
             <h1>Créer un nouveau rallye {'>'} Etape 2</h1>
@@ -172,7 +185,7 @@ function CreateRallyeStep2 () {
                                     </div>
 
                                     <Form.Group controlId="photo1">
-                                        <Form.Label>Photo</Form.Label>
+                                        <Form.Label>Photo (Facultatif)</Form.Label>
                                         <Form.Control type="file" name="file" onChange={e => addFile(e, "photo1")} />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
