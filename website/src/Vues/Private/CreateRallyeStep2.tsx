@@ -50,12 +50,14 @@ function CreateRallyeStep2 () {
         let jsonBis = {};
         jsonBis = rallye;
         const key1 = "question" + question;
+        // Initialisation de dictionnaires pour éviter des erreurs
         if (!jsonBis["rallye"]["rallye"]) {
             jsonBis["rallye"]["rallye"] = {};
         }
         if (!jsonBis["rallye"]["rallye"][key1]) {
             jsonBis["rallye"]["rallye"][key1] = {};
         }
+         // Sauvegarde
         jsonBis["rallye"]["rallye"][key1][key] = event.target.value;
         setLocalInformations(jsonBis);
     }
@@ -73,14 +75,24 @@ function CreateRallyeStep2 () {
             listReponses.push(x);
         }
         reponsesBis[id-1] = listReponses; 
+        // Initialisation de dictionnaires pour éviter des erreurs
         if (!jsonBis["rallye"]["rallye"]) {
             jsonBis["rallye"]["rallye"] = {};
         }
         if (!jsonBis["rallye"]["rallye"]["question"+id]) {
             jsonBis["rallye"]["rallye"]["question"+id] = {};
         }
+        // Supprime les réponses non utilisées
+        if (jsonBis["rallye"]["rallye"]["question"+id].nombre_reponses > nb) {
+            for (var i = nb+1; i <= jsonBis["rallye"]["rallye"]["question"+id].nombre_reponses; i++) {
+                delete jsonBis["rallye"]["rallye"]["question"+id]["reponse"+i];
+            }
+        }
+        // Mise à jour du nombre de réponses
         jsonBis["rallye"]["rallye"]["question"+id].nombre_reponses = nb;
+        // Sauvegarde
         setLocalInformations(jsonBis)
+        // Affichage
         setReponses(reponsesBis);
     }
 
@@ -96,11 +108,19 @@ function CreateRallyeStep2 () {
                 reponsesBis[x-1] = new Array(1,2);
             }
         }
+        // Initialisation d'un dictionnaire pour éviter des erreurs
         if (!jsonBis["rallye"]["rallye"]) {
             jsonBis["rallye"]["rallye"] = {};
         }
+        // Supprime les questions non utilisées
+        for (var i = nb+1; i <= jsonBis["rallye"]["rallye"].nombre_questions; i++) {
+            delete jsonBis["rallye"]["rallye"]["question"+i];
+        }
+        // Mise à jour du nombre de questions
         jsonBis["rallye"]["rallye"]["nombre_questions"] = nb;
+        // Sauvegarde
         setLocalInformations(jsonBis)
+        // Affichage
         setQuestions(listQuestions);
         setReponses(reponsesBis);
     }
@@ -219,6 +239,18 @@ function CreateRallyeStep2 () {
                                             );
                                         })}
                                     </div>
+
+                                    <Form.Group className="mb-3" controlId="explication">
+                                        <Form.Label>Explication</Form.Label>
+                                        <Form.Control as="textarea" rows={4} placeholder="Explication" defaultValue={rallye.rallye.rallye?.["question"+question]?.explication} onChange={e => jsonQuestionsHandle(e, question, "explication")} required />
+                                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    <Form.Group className="mb-3" controlId="points">
+                                        <Form.Label>Nombre Points</Form.Label>
+                                        <Form.Control type="number" placeholder="Nombre de points" defaultValue={rallye.rallye.rallye?.["question"+question]?.points} onChange={e => jsonQuestionsHandle(e, question, "points")} required />
+                                        <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                                    </Form.Group>
 
                                     <Form.Group controlId="photo1">
                                         <Form.Label>Photo (Facultatif)</Form.Label>
