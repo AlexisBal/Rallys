@@ -18,7 +18,8 @@ function CreateRallyeStep2 () {
     // Nombre de questions - Affichage dynamique
     const [questions, setQuestions] = useState(new Array(1, 2));
     // Chargement de la sauvegarde
-    const [chargement, setChargement] = useState(false);
+    const [chargementQuestions, setChargementQuestions] = useState(false);
+    const [chargementReponses, setChargementReponses] = useState(false);
     // Nombre de réponses par question - Affichage dynamique
     const list1 = new Array(1, 2);
     const [reponses, setReponses] = useState(new Array(list1, list1));
@@ -115,9 +116,20 @@ function CreateRallyeStep2 () {
     };
 
     useEffect(() => {
-        if(rallye.rallye.rallye.nombre_questions && !chargement) {
+        if (!rallye.rallye.rallye?.nombre_questions && !chargementQuestions) {
+            nbQuestionsHandle(2)
+        }
+        if (rallye.rallye.rallye?.nombre_questions && !chargementQuestions) {
             nbQuestionsHandle(rallye.rallye.rallye.nombre_questions)
-            setChargement(true);
+            setChargementQuestions(true);
+        } 
+        if (rallye.rallye.rallye?.nombre_questions && !chargementReponses) {
+            for (var x=1; x<=rallye.rallye.rallye.nombre_questions; x++) {
+                if(rallye.rallye.rallye["question"+x]?.nombre_reponses) {
+                    nbReponsesHandle(rallye.rallye.rallye["question"+x].nombre_reponses, x)
+                }
+            }
+            setChargementReponses(true);
         }
     });
     
@@ -129,7 +141,7 @@ function CreateRallyeStep2 () {
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="questions">
                         <Form.Label>Nombre Questions</Form.Label>
-                        <Form.Select aria-label="Default select example" defaultValue={rallye.rallye.rallye.nombre_questions} onChange={e => nbQuestionsHandle(parseInt(e.target.value))} required>
+                        <Form.Select aria-label="Default select example" defaultValue={rallye.rallye.rallye?.nombre_questions || 2} onChange={e => nbQuestionsHandle(parseInt(e.target.value))} required>
                             <option disabled>Nombre de questions</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -171,19 +183,19 @@ function CreateRallyeStep2 () {
                                     <h2>Question {question}</h2>
                                     <Form.Group className="mb-3" controlId="enonce">
                                         <Form.Label>Énoncé</Form.Label>
-                                        <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" defaultValue={rallye.rallye.rallye["question"+question]?.enonce} onChange={e => jsonQuestionsHandle(e, question, "enonce")} required />
+                                        <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" defaultValue={rallye.rallye.rallye?.["question"+question]?.enonce} onChange={e => jsonQuestionsHandle(e, question, "enonce")} required />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="question">
                                         <Form.Label>Question</Form.Label>
-                                        <Form.Control as="textarea" rows={4} placeholder="Question" defaultValue={rallye.rallye.rallye["question"+question]?.question} onChange={e => jsonQuestionsHandle(e, question, "question")} required />
+                                        <Form.Control as="textarea" rows={4} placeholder="Question" defaultValue={rallye.rallye.rallye?.["question"+question]?.question} onChange={e => jsonQuestionsHandle(e, question, "question")} required />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="reponses">
                                         <Form.Label>Nombre Réponses</Form.Label>
-                                        <Form.Select aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value), question)} required>
+                                        <Form.Select aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value), question)} required defaultValue={rallye.rallye.rallye?.["question"+question]?.nombre_reponses || 2}>
                                             <option disabled>Nombre de réponses</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -201,7 +213,7 @@ function CreateRallyeStep2 () {
                                             return (
                                                 <Form.Group className="mb-3" controlId="reponse" key={reponse}>
                                                     <Form.Label>Réponse {reponse}</Form.Label>
-                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonQuestionsHandle(e, question, "reponse" + reponse)} required />
+                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonQuestionsHandle(e, question, "reponse" + reponse)} required defaultValue={rallye.rallye.rallye?.["question"+question]?.["reponse"+reponse]}/>
                                                     <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                                 </Form.Group>
                                             );
