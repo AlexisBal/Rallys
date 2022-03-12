@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Container, Row, Stack } from 'react-bootstrap';
+import { Form, Button, Container, Row, Stack, InputGroup, FormControl } from 'react-bootstrap';
 import { create } from 'ipfs-http-client';
 import { Buffer } from 'buffer';
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +46,7 @@ function CreateRallyeStep2 () {
     }; 
 
     // Sauvegarde sous la forme de JSON
-    const jsonQuestionsHandle = (event: any, question:number, key: string) => {
+    const jsonQuestionsHandle = (value: any, question:number, key: string) => {
         let jsonBis = {};
         jsonBis = rallye;
         const key1 = "question" + question;
@@ -58,7 +58,41 @@ function CreateRallyeStep2 () {
             jsonBis["rallye"]["rallye"][key1] = {};
         }
          // Sauvegarde
-        jsonBis["rallye"]["rallye"][key1][key] = event.target.value;
+        jsonBis["rallye"]["rallye"][key1][key] = value;
+        setLocalInformations(jsonBis);
+    }
+
+    const jsonReponseHandle = (valueBis: any, question:number) => {
+        let jsonBis = {};
+        jsonBis = rallye;
+        var verif = false;
+        const key1 = "question" + question;
+        // Initialisation de dictionnaires pour éviter des erreurs
+        if (!jsonBis["rallye"]["rallye"]) {
+            jsonBis["rallye"]["rallye"] = {};
+        }
+        if (!jsonBis["rallye"]["rallye"][key1]) {
+            jsonBis["rallye"]["rallye"][key1] = {};
+        }
+        // Vérifie si la réponse est déjà répertoriée comme étant vraie
+        if (jsonBis["rallye"]["rallye"][key1]?.solution) {
+            jsonBis["rallye"]["rallye"][key1].solution.forEach((value: string, index: number) => {
+                if (value == valueBis) {
+                    delete jsonBis["rallye"]["rallye"][key1].solution[index];
+                    verif = true;
+                }
+            })
+        } 
+        // Ajoute la solution au json
+        if (!verif) {
+            jsonBis["rallye"]["rallye"][key1].solution.push(valueBis);
+        }
+        // Suppression des valeurs nulles
+        const cleanList =  jsonBis["rallye"]["rallye"][key1].solution.filter((element: null) => {
+            return element !== null;
+        });
+        jsonBis["rallye"]["rallye"][key1].solution = cleanList;
+        // Sauvegarde
         setLocalInformations(jsonBis);
     }
 
@@ -147,9 +181,27 @@ function CreateRallyeStep2 () {
             for (var x=1; x<=rallye.rallye.rallye.nombre_questions; x++) {
                 if(rallye.rallye.rallye["question"+x]?.nombre_reponses) {
                     nbReponsesHandle(rallye.rallye.rallye["question"+x].nombre_reponses, x)
+                } else {
+                    nbReponsesHandle(2, x)
                 }
             }
             setChargementReponses(true);
+        }
+        if (rallye.rallye.rallye?.nombre_questions) {
+            for (var x=1; x<=rallye.rallye.rallye.nombre_questions; x++) {
+                if (rallye.rallye.rallye["question"+x]?.solution) {
+                    rallye.rallye.rallye["question"+x].solution.forEach((value: string) => {
+                        const idCheckbox = "checkbox-"+x+"-"+value;
+                        console.log(idCheckbox);
+                        const findCheckbox = document.getElementById(idCheckbox);
+                        if (findCheckbox) {
+                            findCheckbox.setAttribute("checked", "true");
+                        }
+                    })
+                } else {
+                    rallye.rallye.rallye["question"+x].solution = [];
+                }
+            }
         }
     });
     
@@ -203,13 +255,13 @@ function CreateRallyeStep2 () {
                                     <h2>Question {question}</h2>
                                     <Form.Group className="mb-3" controlId="enonce">
                                         <Form.Label>Énoncé</Form.Label>
-                                        <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" defaultValue={rallye.rallye.rallye?.["question"+question]?.enonce} onChange={e => jsonQuestionsHandle(e, question, "enonce")} required />
+                                        <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" defaultValue={rallye.rallye.rallye?.["question"+question]?.enonce} onChange={e => jsonQuestionsHandle(e.target.value, question, "enonce")} required />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="question">
                                         <Form.Label>Question</Form.Label>
-                                        <Form.Control as="textarea" rows={4} placeholder="Question" defaultValue={rallye.rallye.rallye?.["question"+question]?.question} onChange={e => jsonQuestionsHandle(e, question, "question")} required />
+                                        <Form.Control as="textarea" rows={4} placeholder="Question" defaultValue={rallye.rallye.rallye?.["question"+question]?.question} onChange={e => jsonQuestionsHandle(e.target.value, question, "question")} required />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
 
@@ -231,24 +283,26 @@ function CreateRallyeStep2 () {
                                         {
                                         reponses[question-1].map((reponse) => {
                                             return (
-                                                <Form.Group className="mb-3" controlId="reponse" key={reponse}>
-                                                    <Form.Label>Réponse {reponse}</Form.Label>
-                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonQuestionsHandle(e, question, "reponse" + reponse)} required defaultValue={rallye.rallye.rallye?.["question"+question]?.["reponse"+reponse]}/>
-                                                    <Form.Control.Feedback>Ok !</Form.Control.Feedback>
-                                                </Form.Group>
+                                                <div key={reponse+question}>
+                                                    <Form.Label>Réponse {reponse} (Cocher à droite s'il s'agit d'une bonne réponse)</Form.Label><InputGroup className="mb-3" key={reponse+question}>
+                                                        <FormControl type="text" placeholder="Réponse" onChange={e => jsonQuestionsHandle(e.target.value, question, "reponse" + reponse)} required defaultValue={rallye.rallye.rallye?.["question" + question]?.["reponse" + reponse]} />
+                                                        <InputGroup.Checkbox id={"checkbox-"+question+"-reponse"+reponse} value={"reponse"+reponse} isValid onChange={(e: { target: { value: any; }; }) => jsonReponseHandle(e.target.value, question)} />
+                                                        <FormControl.Feedback>Ok !</FormControl.Feedback>
+                                                    </InputGroup>
+                                                </div>
                                             );
                                         })}
                                     </div>
 
                                     <Form.Group className="mb-3" controlId="explication">
                                         <Form.Label>Explication</Form.Label>
-                                        <Form.Control as="textarea" rows={4} placeholder="Explication" defaultValue={rallye.rallye.rallye?.["question"+question]?.explication} onChange={e => jsonQuestionsHandle(e, question, "explication")} required />
+                                        <Form.Control as="textarea" rows={4} placeholder="Explication" defaultValue={rallye.rallye.rallye?.["question"+question]?.explication} onChange={e => jsonQuestionsHandle(e.target.value, question, "explication")} required />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="points">
                                         <Form.Label>Nombre Points</Form.Label>
-                                        <Form.Control type="number" placeholder="Nombre de points" defaultValue={rallye.rallye.rallye?.["question"+question]?.points} onChange={e => jsonQuestionsHandle(e, question, "points")} required />
+                                        <Form.Control type="number" placeholder="Nombre de points" defaultValue={rallye.rallye.rallye?.["question"+question]?.points} onChange={e => jsonQuestionsHandle(parseInt(e.target.value), question, "points")} required />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
 
