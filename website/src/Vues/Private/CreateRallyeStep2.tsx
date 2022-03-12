@@ -82,6 +82,17 @@ function CreateRallyeStep2 () {
                     verif = true;
                 }
             })
+            if (!verif) {
+                if (jsonBis["rallye"]["rallye"][key1].solution.length+1 >= jsonBis["rallye"]["rallye"][key1].nombre_reponses) {
+                    verif = true;
+                    alert("Trop de réponses sélectionnées à la question "+question+" !");
+                    const idCheckbox = "checkbox-"+question+"-"+valueBis;
+                    const findCheckbox = document.getElementById(idCheckbox);
+                    if (findCheckbox) {
+                        findCheckbox["checked"] = false;
+                    }
+                }
+            }
         } 
         // Ajoute la solution au json
         if (!verif) {
@@ -192,7 +203,6 @@ function CreateRallyeStep2 () {
                 if (rallye.rallye.rallye["question"+x]?.solution) {
                     rallye.rallye.rallye["question"+x].solution.forEach((value: string) => {
                         const idCheckbox = "checkbox-"+x+"-"+value;
-                        console.log(idCheckbox);
                         const findCheckbox = document.getElementById(idCheckbox);
                         if (findCheckbox) {
                             findCheckbox.setAttribute("checked", "true");
@@ -284,9 +294,9 @@ function CreateRallyeStep2 () {
                                         reponses[question-1].map((reponse) => {
                                             return (
                                                 <div key={reponse+question}>
-                                                    <Form.Label>Réponse {reponse} (Cocher à droite s'il s'agit d'une bonne réponse)</Form.Label><InputGroup className="mb-3" key={reponse+question}>
+                                                    <Form.Label>Réponse {reponse} (Cocher s'il s'agit d'une bonne réponse)</Form.Label><InputGroup className="mb-3" key={reponse+question}>
                                                         <FormControl type="text" placeholder="Réponse" onChange={e => jsonQuestionsHandle(e.target.value, question, "reponse" + reponse)} required defaultValue={rallye.rallye.rallye?.["question" + question]?.["reponse" + reponse]} />
-                                                        <InputGroup.Checkbox id={"checkbox-"+question+"-reponse"+reponse} value={"reponse"+reponse} isValid onChange={(e: { target: { value: any; }; }) => jsonReponseHandle(e.target.value, question)} />
+                                                        <InputGroup.Checkbox id={"checkbox-"+question+"-reponse"+reponse} value={"reponse"+reponse} isValid onClick={(e: { target: { value: any; }; }) => jsonReponseHandle(e.target.value, question)} />
                                                         <FormControl.Feedback>Ok !</FormControl.Feedback>
                                                     </InputGroup>
                                                 </div>
