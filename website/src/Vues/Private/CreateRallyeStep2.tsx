@@ -13,12 +13,12 @@ function CreateRallyeStep2 () {
     let auth = useAuth();
     // Objet Navigation (redirection)
     let navigate = useNavigate();
-    // Sauvegarde du rallye (non-volatile)
+    // Sauvegarde du rallye 
     const {setLocalInformations, rallye } = Informations();
-    // Sauvegarde du rallye (volatile)
-    const [json, setJson] = useState(rallye);
     // Nombre de questions - Affichage dynamique
     const [questions, setQuestions] = useState(new Array(1, 2));
+    // Chargement de la sauvegarde
+    const [chargement, setChargement] = useState(false);
     // Nombre de réponses par question - Affichage dynamique
     const list1 = new Array(1, 2);
     const [reponses, setReponses] = useState(new Array(list1, list1));
@@ -39,22 +39,31 @@ function CreateRallyeStep2 () {
             }
         })
         const added = await node.add(event.target.files[0]);
-        var jsonBis = json;
+        var jsonBis = rallye;
         jsonBis.rallye.rallye[key] = added.path;
-        setJson(jsonBis);
+        setLocalInformations(jsonBis)
     }; 
 
     // Sauvegarde sous la forme de JSON
-    const jsonHandle = (event: any, key: string) => {
-        var jsonBis = json;
-        jsonBis[key] = event.target.value;
-        setJson(jsonBis);
+    const jsonQuestionsHandle = (event: any, question:number, key: string) => {
+        let jsonBis = {};
+        jsonBis = rallye;
+        const key1 = "question" + question;
+        if (!jsonBis["rallye"]["rallye"]) {
+            jsonBis["rallye"]["rallye"] = {};
+        }
+        if (!jsonBis["rallye"]["rallye"][key1]) {
+            jsonBis["rallye"]["rallye"][key1] = {};
+        }
+        jsonBis["rallye"]["rallye"][key1][key] = event.target.value;
+        setLocalInformations(jsonBis);
     }
 
     // Nombre de réponses par question - Affichage dynamique
     const nbReponsesHandle = (nb: number, id:number) => {
         let reponsesBis = new Array();
         let listReponses = new Array();
+        var jsonBis = rallye;
         var x: number; 
         reponses.forEach(value => {
             reponsesBis.push(value);
@@ -63,6 +72,14 @@ function CreateRallyeStep2 () {
             listReponses.push(x);
         }
         reponsesBis[id-1] = listReponses; 
+        if (!jsonBis["rallye"]["rallye"]) {
+            jsonBis["rallye"]["rallye"] = {};
+        }
+        if (!jsonBis["rallye"]["rallye"]["question"+id]) {
+            jsonBis["rallye"]["rallye"]["question"+id] = {};
+        }
+        jsonBis["rallye"]["rallye"]["question"+id].nombre_reponses = nb;
+        setLocalInformations(jsonBis)
         setReponses(reponsesBis);
     }
 
@@ -70,6 +87,7 @@ function CreateRallyeStep2 () {
     const nbQuestionsHandle = (nb: number) => {
         let listQuestions = new Array();
         var reponsesBis = reponses;
+        var jsonBis = rallye;
         var x: number; 
         for (x=1; x<=nb; x++) {
             listQuestions.push(x);
@@ -77,6 +95,11 @@ function CreateRallyeStep2 () {
                 reponsesBis[x-1] = new Array(1,2);
             }
         }
+        if (!jsonBis["rallye"]["rallye"]) {
+            jsonBis["rallye"]["rallye"] = {};
+        }
+        jsonBis["rallye"]["rallye"]["nombre_questions"] = nb;
+        setLocalInformations(jsonBis)
         setQuestions(listQuestions);
         setReponses(reponsesBis);
     }
@@ -85,17 +108,18 @@ function CreateRallyeStep2 () {
     const handleSubmit = (event: { currentTarget: any; preventDefault: () => void; stopPropagation: () => void; }) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-        } else {
-            const jsonBis = {
-                statut: "1",
-                rallye: json
-            }
-            setLocalInformations(jsonBis)
-        }
+            event.preventDefault();
+            event.stopPropagation();
+        } 
         setValidated(true);
     };
+
+    useEffect(() => {
+        if(rallye.rallye.rallye.nombre_questions && !chargement) {
+            nbQuestionsHandle(rallye.rallye.rallye.nombre_questions)
+            setChargement(true);
+        }
+    });
     
     // Affichage
     return (
@@ -105,7 +129,7 @@ function CreateRallyeStep2 () {
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="questions">
                         <Form.Label>Nombre Questions</Form.Label>
-                        <Form.Select aria-label="Default select example" onChange={e => nbQuestionsHandle(parseInt(e.target.value))} required>
+                        <Form.Select aria-label="Default select example" defaultValue={rallye.rallye.rallye.nombre_questions} onChange={e => nbQuestionsHandle(parseInt(e.target.value))} required>
                             <option disabled>Nombre de questions</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -147,19 +171,19 @@ function CreateRallyeStep2 () {
                                     <h2>Question {question}</h2>
                                     <Form.Group className="mb-3" controlId="enonce">
                                         <Form.Label>Énoncé</Form.Label>
-                                        <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" onChange={e => jsonHandle(e, "enonce")} required />
+                                        <Form.Control as="textarea" rows={4} placeholder="Enoncé de la question" defaultValue={rallye.rallye.rallye["question"+question]?.enonce} onChange={e => jsonQuestionsHandle(e, question, "enonce")} required />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="question">
                                         <Form.Label>Question</Form.Label>
-                                        <Form.Control as="textarea" rows={4} placeholder="Question" onChange={e => jsonHandle(e, "enonce")} required />
+                                        <Form.Control as="textarea" rows={4} placeholder="Question" defaultValue={rallye.rallye.rallye["question"+question]?.question} onChange={e => jsonQuestionsHandle(e, question, "question")} required />
                                         <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="reponses" key={question}>
+                                    <Form.Group className="mb-3" controlId="reponses">
                                         <Form.Label>Nombre Réponses</Form.Label>
-                                        <Form.Select key={question} aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value), question)} required>
+                                        <Form.Select aria-label="Default select example" onChange={e => nbReponsesHandle(parseInt(e.target.value), question)} required>
                                             <option disabled>Nombre de réponses</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -177,7 +201,7 @@ function CreateRallyeStep2 () {
                                             return (
                                                 <Form.Group className="mb-3" controlId="reponse" key={reponse}>
                                                     <Form.Label>Réponse {reponse}</Form.Label>
-                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonHandle(e, "reponse" + reponse)} required />
+                                                    <Form.Control type="text" placeholder="Réponse" onChange={e => jsonQuestionsHandle(e, question, "reponse" + reponse)} required />
                                                     <Form.Control.Feedback>Ok !</Form.Control.Feedback>
                                                 </Form.Group>
                                             );

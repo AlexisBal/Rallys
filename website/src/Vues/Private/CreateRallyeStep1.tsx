@@ -22,8 +22,7 @@ function CreateRallye () {
     // Redirection vers l'étape 2 s'il y a un rallye en cours de création
     useEffect(() => {
         if (rallye) {
-            if (rallye.statut == 1) {
-                console.log("ok")
+            if (rallye.statut >= 1) {
                 navigate("/new-rallye-step2")
             }
         }
