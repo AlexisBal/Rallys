@@ -65,7 +65,7 @@ function CreateRallyeStep2 () {
     const jsonReponseHandle = (valueBis: any, question:number) => {
         let jsonBis = {};
         jsonBis = rallye;
-        var verif = false;
+        var verif, verif2 = false;
         const key1 = "question" + question;
         // Initialisation de dictionnaires pour éviter des erreurs
         if (!jsonBis["rallye"]["rallye"]) {
@@ -84,7 +84,7 @@ function CreateRallyeStep2 () {
             })
             if (!verif) {
                 if (jsonBis["rallye"]["rallye"][key1].solution.length+1 >= jsonBis["rallye"]["rallye"][key1].nombre_reponses) {
-                    verif = true;
+                    verif2 = true;
                     alert("Trop de réponses sélectionnées à la question "+question+" !");
                     const idCheckbox = "checkbox-"+question+"-"+valueBis;
                     const findCheckbox = document.getElementById(idCheckbox);
@@ -94,8 +94,31 @@ function CreateRallyeStep2 () {
                 }
             }
         } 
+        if (validated) {
+            const idCheckbox = "controlCheckbox"+question;
+            const findCheckbox = document.getElementsByClassName(idCheckbox);
+            var length = rallye.rallye.rallye['question'+question].solution.length; 
+            if (!verif) {
+                length += 1;
+            } else {
+                length -= 1;
+            }
+            if (length == 0) {
+                if (findCheckbox) {
+                    for (var y=0; y<findCheckbox.length; y++) {
+                        findCheckbox[y].setAttribute("class", "is-invalid form-control controlCheckbox"+question);
+                    }
+                }
+            } else {
+                if (findCheckbox) {
+                    for (var y=0; y<findCheckbox.length; y++) {
+                        findCheckbox[y].setAttribute("class", "is-valid form-control controlCheckbox"+question);
+                    }
+                }
+            }
+        }
         // Ajoute la solution au json
-        if (!verif) {
+        if (!verif && !verif2) {
             jsonBis["rallye"]["rallye"][key1].solution.push(valueBis);
         }
         // Suppression des valeurs nulles
@@ -141,6 +164,80 @@ function CreateRallyeStep2 () {
         setReponses(reponsesBis);
     }
 
+    const nbReponsesInit = () => {
+        let reponsesBis = new Array();
+        for (var x=1; x<=rallye.rallye.rallye.nombre_questions; x++) {
+            let listReponses = new Array();
+            var nbRep: number;
+            if(rallye.rallye.rallye["question"+x]?.nombre_reponses) {
+                nbRep = rallye.rallye.rallye["question"+x].nombre_reponses;
+            } else {
+                nbRep = 2;
+                let rallysBis = rallye;
+                // Initialisation de dictionnaires pour éviter des erreurs
+                if (!rallysBis["rallye"]["rallye"]) {
+                    rallysBis["rallye"]["rallye"] = {};
+                }
+                if (!rallysBis["rallye"]["rallye"]["question"+x]) {
+                    rallysBis["rallye"]["rallye"]["question"+x] = {};
+                }
+                rallysBis["rallye"]["rallye"]["question"+x]["nombre_reponses"] = 2;
+                setLocalInformations(rallysBis);
+            }
+            for (var y=1; y<=nbRep; y++) {
+                listReponses.push(y);
+            }
+            reponsesBis[x-1] = listReponses;
+        }
+        setReponses(reponsesBis);
+    }
+
+    const nbQuestionsInit = () => {
+        let listQuestions = new Array();
+        var nbQuestions: number;
+        if (rallye.rallye.rallye?.nombre_questions) {
+            nbQuestions = rallye.rallye.rallye.nombre_questions;
+        } else {
+            let rallysBis = rallye;
+            // Initialisation de dictionnaires pour éviter des erreurs
+            if (!rallysBis["rallye"]["rallye"]) {
+                rallysBis["rallye"]["rallye"] = {};
+            }
+            rallysBis["rallye"]["rallye"]["nombre_questions"] = 2;
+            setLocalInformations(rallysBis);
+            nbQuestions = 2;
+        }
+        for (var x=1; x<=nbQuestions; x++) {
+            listQuestions.push(x);
+        }
+        setQuestions(listQuestions);
+    }
+
+    const checkboxInit = () =>  {
+        for (var x=1; x<=rallye.rallye.rallye.nombre_questions; x++) {
+            if (rallye.rallye.rallye["question"+x]?.solution) {
+                rallye.rallye.rallye["question"+x].solution.forEach((value: string) => {
+                    const idCheckbox = "checkbox-"+x+"-"+value;
+                    const findCheckbox = document.getElementById(idCheckbox);
+                    if (findCheckbox) {
+                        findCheckbox.setAttribute("checked", "true");
+                    }
+                })
+            } else {
+                let rallysBis = rallye;
+                // Initialisation de dictionnaires pour éviter des erreurs
+                if (!rallysBis["rallye"]["rallye"]) {
+                    rallysBis["rallye"]["rallye"] = {};
+                }
+                if (!rallysBis["rallye"]["rallye"]["question"+x]) {
+                    rallysBis["rallye"]["rallye"]["question"+x] = {};
+                }
+                rallysBis["rallye"]["rallye"]["question"+x]["solution"] = [];
+                setLocalInformations(rallysBis);
+            }
+        }
+    }
+
     // Nombre de questions - Affichage dynamique
     const nbQuestionsHandle = (nb: number) => {
         let listQuestions = new Array();
@@ -172,7 +269,24 @@ function CreateRallyeStep2 () {
 
     // Soumission du formulaire
     const handleSubmit = (event: { currentTarget: any; preventDefault: () => void; stopPropagation: () => void; }) => {
-        const form = event.currentTarget;
+        const form = event.currentTarget;  
+        for (var q=1; q<=rallye.rallye.rallye.nombre_questions; q++) {
+            const idCheckbox = "controlCheckbox"+q;
+            const findCheckbox = document.getElementsByClassName(idCheckbox);
+            if (rallye.rallye.rallye['question'+q].solution.length == 0) {
+                if (findCheckbox) {
+                    for (var y=0; y<findCheckbox.length; y++) {
+                        findCheckbox[y].setAttribute("class", "is-invalid form-control controlCheckbox"+q);
+                    }
+                }
+            } else {
+                if (findCheckbox) {
+                    for (var y=0; y<findCheckbox.length; y++) {
+                        findCheckbox[y].setAttribute("class", "is-valid form-control controlCheckbox"+q);
+                    }
+                }
+            }
+        }
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
@@ -181,37 +295,14 @@ function CreateRallyeStep2 () {
     };
 
     useEffect(() => {
-        if (!rallye.rallye.rallye?.nombre_questions && !chargementQuestions) {
-            nbQuestionsHandle(2)
-        }
-        if (rallye.rallye.rallye?.nombre_questions && !chargementQuestions) {
-            nbQuestionsHandle(rallye.rallye.rallye.nombre_questions)
+        if (!chargementQuestions) {
+            nbQuestionsInit();
             setChargementQuestions(true);
         } 
-        if (rallye.rallye.rallye?.nombre_questions && !chargementReponses) {
-            for (var x=1; x<=rallye.rallye.rallye.nombre_questions; x++) {
-                if(rallye.rallye.rallye["question"+x]?.nombre_reponses) {
-                    nbReponsesHandle(rallye.rallye.rallye["question"+x].nombre_reponses, x)
-                } else {
-                    nbReponsesHandle(2, x)
-                }
-            }
+        if (!chargementReponses) {
+            nbReponsesInit();
+            checkboxInit();
             setChargementReponses(true);
-        }
-        if (rallye.rallye.rallye?.nombre_questions) {
-            for (var x=1; x<=rallye.rallye.rallye.nombre_questions; x++) {
-                if (rallye.rallye.rallye["question"+x]?.solution) {
-                    rallye.rallye.rallye["question"+x].solution.forEach((value: string) => {
-                        const idCheckbox = "checkbox-"+x+"-"+value;
-                        const findCheckbox = document.getElementById(idCheckbox);
-                        if (findCheckbox) {
-                            findCheckbox.setAttribute("checked", "true");
-                        }
-                    })
-                } else {
-                    rallye.rallye.rallye["question"+x].solution = [];
-                }
-            }
         }
     });
     
@@ -294,11 +385,15 @@ function CreateRallyeStep2 () {
                                         reponses[question-1].map((reponse) => {
                                             return (
                                                 <div key={reponse+question}>
-                                                    <Form.Label>Réponse {reponse} (Cocher s'il s'agit d'une bonne réponse)</Form.Label><InputGroup className="mb-3" key={reponse+question}>
-                                                        <FormControl type="text" placeholder="Réponse" onChange={e => jsonQuestionsHandle(e.target.value, question, "reponse" + reponse)} required defaultValue={rallye.rallye.rallye?.["question" + question]?.["reponse" + reponse]} />
-                                                        <InputGroup.Checkbox id={"checkbox-"+question+"-reponse"+reponse} value={"reponse"+reponse} isValid onClick={(e: { target: { value: any; }; }) => jsonReponseHandle(e.target.value, question)} />
-                                                        <FormControl.Feedback>Ok !</FormControl.Feedback>
-                                                    </InputGroup>
+                                                    <Form.Group className="mb-3" key={reponse+question}>
+                                                        <Form.Label>Réponse {reponse} (Cocher s'il s'agit d'une bonne réponse)</Form.Label>
+                                                        <InputGroup className="mb-3">
+                                                            <Form.Control className={"controlCheckbox"+question} type="text" placeholder="Réponse" onChange={e => jsonQuestionsHandle(e.target.value, question, "reponse" + reponse)} required defaultValue={rallye.rallye.rallye?.["question" + question]?.["reponse" + reponse]} />
+                                                            <InputGroup.Checkbox id={"checkbox-"+question+"-reponse"+reponse} value={"reponse"+reponse} onClick={(e: { target: { value: any; }; }) => jsonReponseHandle(e.target.value, question)} />
+                                                            <Form.Control.Feedback>Ok !</Form.Control.Feedback>
+                                                            <Form.Control.Feedback type="invalid">Pas de réponses vraies sélectionnées. Veuillez cocher au moins 1 case.</Form.Control.Feedback>
+                                                        </InputGroup>
+                                                    </Form.Group>
                                                 </div>
                                             );
                                         })}

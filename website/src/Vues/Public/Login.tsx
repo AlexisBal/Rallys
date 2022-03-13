@@ -40,7 +40,7 @@ function Login() {
   }
   
   return (
-    <div className='safe-container'>
+    <div className='safe-container-2'>
       <h1>Se Connecter</h1>
       <div>
         {Object.keys(connectorsByName).map(name => {
