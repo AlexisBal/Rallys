@@ -65,7 +65,8 @@ function CreateRallyeStep2 () {
     const jsonReponseHandle = (valueBis: any, question:number) => {
         let jsonBis = {};
         jsonBis = rallye;
-        var verif, verif2 = false;
+        var verif = false;
+        var verif2 = false;
         const key1 = "question" + question;
         // Initialisation de dictionnaires pour éviter des erreurs
         if (!jsonBis["rallye"]["rallye"]) {
