@@ -5,7 +5,6 @@ import {
   Route,
   useLocation
 } from "react-router-dom";
-import { useWeb3React } from "@web3-react/core";
 
 import { useAuth, AuthContext } from "./Tracking/Auth";
 import Informations from "./Tracking/Informations";
@@ -95,12 +94,10 @@ function PublicHeader() {
 function PrivateHeader() {
   let location = useLocation();
   let auth = useAuth();
-  const { deactivate } = useWeb3React();
 
   if (!auth.keybis) return null;
 
   function logOut() {
-    deactivate();
     auth.signout();
   }
 
