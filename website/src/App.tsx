@@ -1,11 +1,10 @@
 import * as React from "react";
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown} from 'react-bootstrap';
 import {
   Routes,
   Route,
   useLocation
 } from "react-router-dom";
-import { useWeb3React } from "@web3-react/core";
 
 import { useAuth, AuthContext } from "./Tracking/Auth";
 import Informations from "./Tracking/Informations";
@@ -14,6 +13,9 @@ import PrivateRoute from "./Tracking/PrivateRoute";
 import Home from './Vues/Public/Home';
 import Login from './Vues/Public/Login';
 import ProfileHome from './Vues/Private/ProfileHome';
+import CreateRallye from './Vues/Private/CreateRallyeStep1';
+import CreateRallyeStep2 from './Vues/Private/CreateRallyeStep2';
+import CreateRallyeStep3 from './Vues/Private/CreateRallyeStep3';
 
 import './App.css';
 
@@ -31,6 +33,30 @@ export default function App() {
           element={
             <PrivateRoute>
               <ProfileHome />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/new-rallye-step1"
+          element={
+            <PrivateRoute>
+              <CreateRallye />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/new-rallye-step2"
+          element={
+            <PrivateRoute>
+              <CreateRallyeStep2 />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/new-rallye-step3"
+          element={
+            <PrivateRoute>
+              <CreateRallyeStep3 />
             </PrivateRoute>
           }
         />
@@ -68,12 +94,10 @@ function PublicHeader() {
 function PrivateHeader() {
   let location = useLocation();
   let auth = useAuth();
-  const { deactivate } = useWeb3React();
 
   if (!auth.keybis) return null;
 
   function logOut() {
-    deactivate();
     auth.signout();
   }
 
@@ -84,6 +108,9 @@ function PrivateHeader() {
         <Nav activeKey={location.pathname} className="mr-auto ">
           <Nav.Item>
             <Nav.Link href="/myaccount">Accueil</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/new-rallye-step1">Nouveau Rallye</Nav.Link>
           </Nav.Item>
           <NavDropdown  title="Mon compte" id="basic-nav-dropdown">
             <NavDropdown.Item onClick={logOut}>Déconnexion</NavDropdown.Item>

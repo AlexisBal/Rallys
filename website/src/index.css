@@ -1,12 +1,4 @@
-
-html, body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  background: linear-gradient(#100f27, #1e134b);
-}
-
-h1 {
+h1, h2 {
   padding-top: 40px;
   color: white;
 }
@@ -15,6 +7,16 @@ label {
   color: white;
 }
 
+html, body, #root, #root > div{
+  background: linear-gradient(#054AAD, #366ebd);
+  background-repeat: no-repeat; 
+}
+
+html, body {
+  height:  100%;
+  background: linear-gradient(#054AAD, #366ebd);
+  background-repeat: no-repeat; 
+}
 
 .alert {
   margin-top: 60px;
@@ -22,8 +24,18 @@ label {
   width: auto;
 }
 
-.safe-container {
+.safe-container-1 {
+  height:  100%;
   padding: 40px;
+}
+
+.safe-container-2 {
+  padding: 40px;
+  height: 100%;
+}
+
+form {
+  margin-top: 40px;
 }
 
 .error {
@@ -33,13 +45,13 @@ label {
 
 .PublicNavBar {
   height:fit-content;
-  background-color: white;
+  background: white;
   padding: 1vw;
 }
 
 .PrivateNavBar {
   height:fit-content;
-  background-color: white;
+  background: white;
 }
 
 .form-signin {
@@ -323,6 +335,9 @@ label {
   margin-top: 10px;
 }
 
+.justifyCenter  {
+  justify-content: center;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

@@ -1,61 +1,46 @@
-import React from 'react';
-import { useWeb3React } from '@web3-react/core';
-import { Web3Provider } from '@ethersproject/providers';
+import React, {useState} from 'react';
+
 import { Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
-import {
-  injected,
-  walletconnect,
-  walletlink
-} from '../../Contracts/Connectors';
+import { ethers } from 'ethers';
+
 import { useAuth } from "../../Tracking/Auth";
 
-const connectorsByName: { [key: string]: any } = {
-  'MetaMask': injected,
-  'WalletConnect': walletconnect,
-  'WalletLink': walletlink
-};
+
+declare let window: any;
 
 function Login() {
-  const context = useWeb3React<Web3Provider>();
-  const { activate, active, account } = context;
   let auth = useAuth();
   let navigate = useNavigate();
+  const [address, setAddress] = useState("");
 
   React.useEffect(() => {
-    if (active && !auth.keybis) {
-      auth.signin(account);
+    if (address && !auth.keybis) {
+      auth.signin(address);
     }
-    if (active && auth.keybis) {
+    if (address && auth.keybis) {
       navigate("/myaccount");
     }
   })
 
-  async function connect(name: string) {
-    try {
-      await activate(connectorsByName[name]);
-    } catch (ex) {
-      console.log(ex)
+  async function connect() {
+    if (!window.ethereum) {
+      alert("No Metamask detected")
+    } else {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      window.ethereum.enable().then(() => {
+        const signer = provider.getSigner()
+        signer.getAddress().then(
+          (result) => {setAddress(result)})
+      })
     }
   }
   
   return (
-    <div className='safe-container'>
+    <div className='safe-container-2'>
       <h1>Se Connecter</h1>
-      <div>
-        {Object.keys(connectorsByName).map(name => {
-          return (
-            <Button
-              key={name}
-              onClick={() => {
-                connect(name);
-              }}
-            >
-              {name}
-            </Button>
-          )
-        })}
-      </div>
+      <Button onClick={() => {connect()}}>Engager le wallet</Button>
     </div>
   )
 }
